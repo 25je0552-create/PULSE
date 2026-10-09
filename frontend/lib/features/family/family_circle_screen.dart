@@ -120,9 +120,18 @@ class _FamilyCircleScreenState extends ConsumerState<FamilyCircleScreen> {
                         ),
                       ],
                     ),
-                    IconButton(
-                      icon: const Icon(Icons.close, size: 20),
-                      onPressed: () => Navigator.pop(ctx),
+                    InkWell(
+                      onTap: () => Navigator.pop(ctx),
+                      borderRadius: BorderRadius.circular(16),
+                      child: Container(
+                        width: 32,
+                        height: 32,
+                        decoration: const BoxDecoration(
+                          color: Color(0xFFEAEDFF),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(Icons.close, size: 18, color: Color(0xFF3D4947)),
+                      ),
                     ),
                   ],
                 ),
@@ -145,35 +154,36 @@ class _FamilyCircleScreenState extends ConsumerState<FamilyCircleScreen> {
                 const SizedBox(height: 12),
                 Text('Relationship', style: AppTypography.labelMedium),
                 const SizedBox(height: 6),
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: ['Parent', 'Partner', 'Sibling', 'Friend', 'Caregiver', 'Other']
-                      .map(
-                        (rel) => InkWell(
-                          onTap: () => setModalState(() => selectedRelation = rel),
-                          borderRadius: BorderRadius.circular(8),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                            decoration: BoxDecoration(
-                              color: selectedRelation == rel
-                                  ? AppColors.primary
-                                  : AppColors.surfaceContainerLow,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Text(
-                              rel,
-                              style: AppTypography.labelSmall.copyWith(
-                                color: selectedRelation == rel
-                                    ? Colors.white
-                                    : AppColors.onSurface,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
-                      .toList(),
+                Row(
+                  children: [
+                    _buildRelChip('Parent', selectedRelation, () {
+                      setModalState(() => selectedRelation = 'Parent');
+                    }),
+                    const SizedBox(width: 8),
+                    _buildRelChip('Partner', selectedRelation, () {
+                      setModalState(() => selectedRelation = 'Partner');
+                    }),
+                    const SizedBox(width: 8),
+                    _buildRelChip('Sibling', selectedRelation, () {
+                      setModalState(() => selectedRelation = 'Sibling');
+                    }),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    _buildRelChip('Friend', selectedRelation, () {
+                      setModalState(() => selectedRelation = 'Friend');
+                    }),
+                    const SizedBox(width: 8),
+                    _buildRelChip('Caregiver', selectedRelation, () {
+                      setModalState(() => selectedRelation = 'Caregiver');
+                    }),
+                    const SizedBox(width: 8),
+                    _buildRelChip('Other', selectedRelation, () {
+                      setModalState(() => selectedRelation = 'Other');
+                    }),
+                  ],
                 ),
                 const SizedBox(height: 12),
                 Text('Phone number or email', style: AppTypography.labelMedium),
@@ -194,26 +204,36 @@ class _FamilyCircleScreenState extends ConsumerState<FamilyCircleScreen> {
                 const SizedBox(height: 18),
                 SizedBox(
                   width: double.infinity,
-                  height: 48,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primary,
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                      elevation: 0,
-                    ),
-                    onPressed: () {
-                      if (nameController.text.trim().isNotEmpty) {
-                        setModalState(() => currentStep = 2);
-                      }
-                    },
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('Continue to permissions', style: TextStyle(fontWeight: FontWeight.w700)),
-                        SizedBox(width: 6),
-                        Icon(Icons.arrow_forward, size: 18),
-                      ],
+                  child: Material(
+                    color: AppColors.primary,
+                    borderRadius: BorderRadius.circular(12),
+                    elevation: 1,
+                    shadowColor: Colors.black.withValues(alpha: 0.1),
+                    child: InkWell(
+                      onTap: () {
+                        if (nameController.text.trim().isNotEmpty) {
+                          setModalState(() => currentStep = 2);
+                        }
+                      },
+                      borderRadius: BorderRadius.circular(12),
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 13),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Continue to permissions',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            SizedBox(width: 8),
+                            Icon(Icons.arrow_forward, size: 18, color: Colors.white),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -249,9 +269,18 @@ class _FamilyCircleScreenState extends ConsumerState<FamilyCircleScreen> {
                         ),
                       ],
                     ),
-                    IconButton(
-                      icon: const Icon(Icons.close, size: 20),
-                      onPressed: () => Navigator.pop(ctx),
+                    InkWell(
+                      onTap: () => Navigator.pop(ctx),
+                      borderRadius: BorderRadius.circular(16),
+                      child: Container(
+                        width: 32,
+                        height: 32,
+                        decoration: const BoxDecoration(
+                          color: Color(0xFFEAEDFF),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(Icons.close, size: 18, color: Color(0xFF3D4947)),
+                      ),
                     ),
                   ],
                 ),
@@ -341,38 +370,62 @@ class _FamilyCircleScreenState extends ConsumerState<FamilyCircleScreen> {
                 const SizedBox(height: 14),
                 Row(
                   children: [
-                    OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                        backgroundColor: AppColors.surfaceContainerLow,
-                        foregroundColor: AppColors.onSurface,
-                        side: BorderSide.none,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                        minimumSize: const Size(80, 46),
-                      ),
-                      onPressed: () => setModalState(() => currentStep = 1),
-                      child: const Text('Back'),
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
-                          foregroundColor: Colors.white,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                          minimumSize: const Size(120, 46),
+                    Material(
+                      color: const Color(0xFFEAEDFF),
+                      borderRadius: BorderRadius.circular(12),
+                      child: InkWell(
+                        onTap: () => setModalState(() => currentStep = 1),
+                        borderRadius: BorderRadius.circular(12),
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 13),
+                          child: Text(
+                            'Back',
+                            style: TextStyle(
+                              color: Color(0xFF131B2E),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                         ),
-                        icon: const Icon(Icons.send, size: 18),
-                        label: const Text('Send invitation', style: TextStyle(fontWeight: FontWeight.w700)),
-                        onPressed: () {
-                          ref.read(familyProvider.notifier).addMember(
-                                name: nameController.text.trim(),
-                                relation: selectedRelation,
-                                contact: contactController.text.trim(),
-                                permissions: draftPermissions,
-                              );
-                          setModalState(() => currentStep = 3);
-                        },
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Material(
+                        color: AppColors.primary,
+                        borderRadius: BorderRadius.circular(12),
+                        elevation: 1,
+                        shadowColor: Colors.black.withValues(alpha: 0.1),
+                        child: InkWell(
+                          onTap: () {
+                            ref.read(familyProvider.notifier).addMember(
+                                  name: nameController.text.trim(),
+                                  relation: selectedRelation,
+                                  contact: contactController.text.trim(),
+                                  permissions: draftPermissions,
+                                );
+                            setModalState(() => currentStep = 3);
+                          },
+                          borderRadius: BorderRadius.circular(12),
+                          child: const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 13),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.send, size: 18, color: Colors.white),
+                                SizedBox(width: 8),
+                                Text(
+                                  'Send invitation',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ],
@@ -422,16 +475,26 @@ class _FamilyCircleScreenState extends ConsumerState<FamilyCircleScreen> {
                       const SizedBox(height: 20),
                       SizedBox(
                         width: double.infinity,
-                        height: 46,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primary,
-                            foregroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                            elevation: 0,
+                        child: Material(
+                          color: AppColors.primary,
+                          borderRadius: BorderRadius.circular(12),
+                          child: InkWell(
+                            onTap: () => Navigator.pop(ctx),
+                            borderRadius: BorderRadius.circular(12),
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 13),
+                              child: Center(
+                                child: Text(
+                                  'Done',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
-                          onPressed: () => Navigator.pop(ctx),
-                          child: const Text('Done', style: TextStyle(fontWeight: FontWeight.w700)),
                         ),
                       ),
                     ],
@@ -439,6 +502,32 @@ class _FamilyCircleScreenState extends ConsumerState<FamilyCircleScreen> {
                 ),
               ],
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRelChip(String title, String selected, VoidCallback onTap) {
+    final isSelected = title == selected;
+    return Expanded(
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(8),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          decoration: BoxDecoration(
+            color: isSelected ? AppColors.primary : const Color(0xFFEAEDFF),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          alignment: Alignment.center,
+          child: Text(
+            title,
+            style: TextStyle(
+              color: isSelected ? Colors.white : const Color(0xFF131B2E),
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
       ),
@@ -537,9 +626,18 @@ class _FamilyCircleScreenState extends ConsumerState<FamilyCircleScreen> {
                       ),
                     ],
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.close, size: 20),
-                    onPressed: () => Navigator.pop(ctx),
+                  InkWell(
+                    onTap: () => Navigator.pop(ctx),
+                    borderRadius: BorderRadius.circular(16),
+                    child: Container(
+                      width: 32,
+                      height: 32,
+                      decoration: const BoxDecoration(
+                        color: Color(0xFFEAEDFF),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(Icons.close, size: 18, color: Color(0xFF3D4947)),
+                    ),
                   ),
                 ],
               ),
@@ -578,32 +676,64 @@ class _FamilyCircleScreenState extends ConsumerState<FamilyCircleScreen> {
               const SizedBox(height: 16),
               SizedBox(
                 width: double.infinity,
-                height: 46,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    elevation: 0,
+                child: Material(
+                  color: AppColors.primary,
+                  borderRadius: BorderRadius.circular(12),
+                  elevation: 1,
+                  shadowColor: Colors.black.withValues(alpha: 0.1),
+                  child: InkWell(
+                    onTap: () {
+                      ref.read(familyProvider.notifier).updateAllPermissions(member.id, localPerms);
+                      Navigator.pop(ctx);
+                      _showToast("${member.name}'s permissions updated.");
+                    },
+                    borderRadius: BorderRadius.circular(12),
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 13),
+                      child: Center(
+                        child: Text(
+                          'Save access changes',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
-                  onPressed: () {
-                    ref.read(familyProvider.notifier).updateAllPermissions(member.id, localPerms);
-                    Navigator.pop(ctx);
-                    _showToast("${member.name}'s permissions updated.");
-                  },
-                  child: const Text('Save changes', style: TextStyle(fontWeight: FontWeight.w700)),
                 ),
               ),
               const SizedBox(height: 8),
-              Center(
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.pop(ctx);
-                    _showRemoveConfirmationDialog(member);
-                  },
-                  child: Text(
-                    'Remove from Family Circle',
-                    style: AppTypography.labelMedium.copyWith(color: AppColors.error),
+              SizedBox(
+                width: double.infinity,
+                child: Material(
+                  color: const Color(0xFFFFDAD6).withValues(alpha: 0.4),
+                  borderRadius: BorderRadius.circular(12),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pop(ctx);
+                      _showRemoveConfirmationDialog(member);
+                    },
+                    borderRadius: BorderRadius.circular(12),
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 11),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.person_remove, size: 18, color: Color(0xFFBA1A1A)),
+                          SizedBox(width: 6),
+                          Text(
+                            'Remove from Family Circle',
+                            style: TextStyle(
+                              color: Color(0xFFBA1A1A),
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -620,29 +750,92 @@ class _FamilyCircleScreenState extends ConsumerState<FamilyCircleScreen> {
       builder: (ctx) => AlertDialog(
         backgroundColor: AppColors.surfaceContainerLowest,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Text('Remove ${member.name}?', style: AppTypography.titleLarge),
-        content: Text(
-          'They will immediately lose access to any shared wellbeing signals or schedules.',
-          style: AppTypography.bodySmall.copyWith(color: AppColors.onSurfaceVariant),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.error,
-              foregroundColor: Colors.white,
+        contentPadding: const EdgeInsets.all(20),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 48,
+              height: 48,
+              decoration: const BoxDecoration(
+                color: Color(0xFFFFDAD6),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.warning, color: Color(0xFFBA1A1A), size: 24),
             ),
-            onPressed: () {
-              ref.read(familyProvider.notifier).removeMember(member.id);
-              Navigator.pop(ctx);
-              _showToast('${member.name} removed from your Family Circle.');
-            },
-            child: const Text('Remove'),
-          ),
-        ],
+            const SizedBox(height: 12),
+            Text(
+              'Remove ${member.name}?',
+              style: AppTypography.headlineSmall.copyWith(fontWeight: FontWeight.w700),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 6),
+            Text(
+              "They will no longer have access to information you've shared through Pulse. You can invite them back at any time.",
+              style: AppTypography.bodySmall.copyWith(
+                color: AppColors.onSurfaceVariant,
+                height: 1.4,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 18),
+            Row(
+              children: [
+                Expanded(
+                  child: Material(
+                    color: const Color(0xFFEAEDFF),
+                    borderRadius: BorderRadius.circular(12),
+                    child: InkWell(
+                      onTap: () => Navigator.pop(ctx),
+                      borderRadius: BorderRadius.circular(12),
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 11),
+                        child: Center(
+                          child: Text(
+                            'Cancel',
+                            style: TextStyle(
+                              color: Color(0xFF131B2E),
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Material(
+                    color: const Color(0xFFBA1A1A),
+                    borderRadius: BorderRadius.circular(12),
+                    child: InkWell(
+                      onTap: () {
+                        ref.read(familyProvider.notifier).removeMember(member.id);
+                        Navigator.pop(ctx);
+                        _showToast('${member.name} removed from your Family Circle.');
+                      },
+                      borderRadius: BorderRadius.circular(12),
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 11),
+                        child: Center(
+                          child: Text(
+                            'Confirm remove',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -658,15 +851,24 @@ class _FamilyCircleScreenState extends ConsumerState<FamilyCircleScreen> {
         backgroundColor: AppColors.surface,
         elevation: 0,
         centerTitle: false,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.onSurface),
-          onPressed: () {
-            if (context.canPop()) {
-              context.pop();
-            } else {
-              context.go(AppRoutes.profile);
-            }
-          },
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 4),
+          child: InkWell(
+            onTap: () {
+              if (context.canPop()) {
+                context.pop();
+              } else {
+                context.go(AppRoutes.profile);
+              }
+            },
+            borderRadius: BorderRadius.circular(22),
+            child: Container(
+              width: 44,
+              height: 44,
+              alignment: Alignment.center,
+              child: const Icon(Icons.arrow_back, color: Color(0xFF131B2E), size: 24),
+            ),
+          ),
         ),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -692,7 +894,7 @@ class _FamilyCircleScreenState extends ConsumerState<FamilyCircleScreen> {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
-                  color: AppColors.surfaceContainerLow,
+                  color: const Color(0xFFEAEDFF),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Row(
@@ -900,7 +1102,7 @@ class _FamilyCircleScreenState extends ConsumerState<FamilyCircleScreen> {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                   decoration: BoxDecoration(
-                    color: count > 0 ? const Color(0xFF89F5E7) : AppColors.surfaceContainerLow,
+                    color: count > 0 ? const Color(0xFF89F5E7) : const Color(0xFFEAEDFF),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Text(
@@ -952,20 +1154,34 @@ class _FamilyCircleScreenState extends ConsumerState<FamilyCircleScreen> {
         const SizedBox(height: 12),
         SizedBox(
           width: double.infinity,
-          height: 48,
-          child: ElevatedButton.icon(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-              elevation: 0,
+          child: Material(
+            color: AppColors.primary,
+            borderRadius: BorderRadius.circular(12),
+            elevation: 1,
+            shadowColor: Colors.black.withValues(alpha: 0.1),
+            child: InkWell(
+              onTap: _showInviteModal,
+              borderRadius: BorderRadius.circular(12),
+              child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.person_add, color: Colors.white, size: 20),
+                    SizedBox(width: 8),
+                    Text(
+                      'Add trusted person',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.1,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
-            icon: const Icon(Icons.person_add, size: 18),
-            label: const Text(
-              'Add trusted person',
-              style: TextStyle(fontWeight: FontWeight.w700),
-            ),
-            onPressed: _showInviteModal,
           ),
         ),
       ],
@@ -1061,43 +1277,53 @@ class _FamilyCircleScreenState extends ConsumerState<FamilyCircleScreen> {
                   ],
                 ),
               ),
-              IconButton(
-                icon: const Icon(Icons.tune, size: 20, color: AppColors.outline),
-                onPressed: () => _showPriyaModal(member),
+              InkWell(
+                onTap: () => _showPriyaModal(member),
+                borderRadius: BorderRadius.circular(18),
+                child: Container(
+                  width: 36,
+                  height: 36,
+                  decoration: const BoxDecoration(
+                    color: Color(0xFFEAEDFF),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(Icons.tune, size: 20, color: Color(0xFF3D4947)),
+                ),
               ),
             ],
           ),
           const SizedBox(height: 10),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-            decoration: BoxDecoration(
-              color: AppColors.surfaceContainerLow,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Row(
-              children: [
-                const Icon(Icons.rule_folder, size: 16, color: AppColors.primary),
-                const SizedBox(width: 6),
-                Expanded(
-                  child: Text(
-                    'Shared: Wellbeing updates & goals',
-                    style: AppTypography.bodySmall.copyWith(
-                      color: AppColors.onSurfaceVariant,
-                      fontSize: 11,
+          InkWell(
+            onTap: () => _showPriyaModal(member),
+            borderRadius: BorderRadius.circular(12),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+              decoration: BoxDecoration(
+                color: AppColors.surfaceContainerLow,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.rule_folder, size: 16, color: AppColors.primary),
+                  const SizedBox(width: 6),
+                  Expanded(
+                    child: Text(
+                      'Shared: Wellbeing updates & goals',
+                      style: AppTypography.bodySmall.copyWith(
+                        color: AppColors.onSurfaceVariant,
+                        fontSize: 11,
+                      ),
                     ),
                   ),
-                ),
-                InkWell(
-                  onTap: () => _showPriyaModal(member),
-                  child: Text(
+                  Text(
                     'Edit access',
                     style: AppTypography.labelSmall.copyWith(
                       color: AppColors.primary,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],
@@ -1151,22 +1377,33 @@ class _FamilyCircleScreenState extends ConsumerState<FamilyCircleScreen> {
           const SizedBox(height: 12),
           SizedBox(
             width: double.infinity,
-            height: 40,
-            child: ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.surfaceContainerHigh,
-                foregroundColor: AppColors.onSurface,
-                elevation: 0,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            child: Material(
+              color: const Color(0xFFE2E7FF),
+              borderRadius: BorderRadius.circular(8),
+              child: InkWell(
+                onTap: () {
+                  _showToast('Global privacy settings synchronized.');
+                },
+                borderRadius: BorderRadius.circular(8),
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.security, size: 16, color: AppColors.primary),
+                      SizedBox(width: 8),
+                      Text(
+                        'Manage privacy settings',
+                        style: TextStyle(
+                          color: Color(0xFF131B2E),
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              icon: const Icon(Icons.security, size: 16, color: AppColors.primary),
-              label: const Text(
-                'Manage privacy settings',
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
-              ),
-              onPressed: () {
-                _showToast('Global privacy settings synchronized.');
-              },
             ),
           ),
         ],
@@ -1206,35 +1443,63 @@ class _FamilyCircleScreenState extends ConsumerState<FamilyCircleScreen> {
           Row(
             children: [
               Expanded(
-                child: SizedBox(
-                  height: 40,
-                  child: ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.surfaceContainerLowest,
-                      foregroundColor: AppColors.onSurface,
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                child: Material(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  elevation: 1,
+                  shadowColor: Colors.black.withValues(alpha: 0.04),
+                  child: InkWell(
+                    onTap: () => context.push(AppRoutes.care),
+                    borderRadius: BorderRadius.circular(12),
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.medical_services_outlined, size: 16, color: Color(0xFF006398)),
+                          SizedBox(width: 6),
+                          Text(
+                            'Care team',
+                            style: TextStyle(
+                              color: Color(0xFF131B2E),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    icon: const Icon(Icons.medical_services_outlined, size: 16, color: AppColors.secondary),
-                    label: const Text('Care team', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13)),
-                    onPressed: () => context.push(AppRoutes.care),
                   ),
                 ),
               ),
-              const SizedBox(width: 10),
+              const SizedBox(width: 8),
               Expanded(
-                child: SizedBox(
-                  height: 40,
-                  child: ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.surfaceContainerLowest,
-                      foregroundColor: AppColors.onSurface,
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                child: Material(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  elevation: 1,
+                  shadowColor: Colors.black.withValues(alpha: 0.04),
+                  child: InkWell(
+                    onTap: () => context.push(AppRoutes.safety),
+                    borderRadius: BorderRadius.circular(12),
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.support_agent, size: 16, color: Color(0xFF4648D4)),
+                          SizedBox(width: 6),
+                          Text(
+                            'Human support',
+                            style: TextStyle(
+                              color: Color(0xFF131B2E),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    icon: const Icon(Icons.support_agent, size: 16, color: AppColors.tertiary),
-                    label: const Text('Human support', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13)),
-                    onPressed: () => context.push(AppRoutes.safety),
                   ),
                 ),
               ),
