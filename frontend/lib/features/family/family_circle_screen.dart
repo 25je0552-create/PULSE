@@ -1456,7 +1456,7 @@ class _FamilyCircleScreenState extends ConsumerState<FamilyCircleScreen> {
                   elevation: 1,
                   shadowColor: Colors.black.withValues(alpha: 0.04),
                   child: InkWell(
-                    onTap: () => context.push(AppRoutes.care),
+                    onTap: () => context.go(AppRoutes.care),
                     borderRadius: BorderRadius.circular(12),
                     child: const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),

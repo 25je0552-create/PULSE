@@ -105,7 +105,7 @@ class ProgressScreen extends ConsumerWidget {
               PulseButton(
                 text: 'View Care Continuity & Team',
                 icon: Icons.healing,
-                onPressed: () => context.push(AppRoutes.care),
+                onPressed: () => context.go(AppRoutes.care),
               ),
               const SizedBox(height: 20),
             ],

@@ -810,7 +810,7 @@ class _WellbeingScreenState extends State<WellbeingScreen> {
             title: 'Talk it through with Pulse AI',
             subtitle: 'Supportive reflection and gentle check-in prompts',
             actionText: 'Open AI',
-            onTap: () => context.push(AppRoutes.pulseAi),
+            onTap: () => context.go(AppRoutes.pulseAi),
           ),
           const Divider(height: 16, color: Color(0xFFEAEDFF)),
           _buildSupportRow(
@@ -821,7 +821,7 @@ class _WellbeingScreenState extends State<WellbeingScreen> {
             title: 'Community Peer Support',
             subtitle: 'Anonymous discussions, shared journeys, and empathy',
             actionText: 'Community',
-            onTap: () => context.push(AppRoutes.community),
+            onTap: () => context.go(AppRoutes.community),
           ),
           const Divider(height: 16, color: Color(0xFFEAEDFF)),
           _buildSupportRow(

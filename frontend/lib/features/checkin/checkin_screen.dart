@@ -39,7 +39,7 @@ class _CheckinScreenState extends ConsumerState<CheckinScreen> {
     ref.read(checkinProvider.notifier).setReflection(_reflectionController.text.trim());
     final success = await ref.read(checkinProvider.notifier).submitCheckin();
     if (success && mounted) {
-      context.push(AppRoutes.pulseAi);
+      context.go(AppRoutes.pulseAi);
     }
   }
 
