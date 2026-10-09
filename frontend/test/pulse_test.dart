@@ -67,6 +67,60 @@ void main() {
       expect(state.role, equals('patient'));
     });
 
+    test('AuthNotifier login succeeds with valid patient credentials', () async {
+      final notifier = AuthNotifier();
+      final success = await notifier.login(
+        identifier: 'patient@pulse.health',
+        password: 'pulse123',
+        role: 'patient',
+      );
+      expect(success, isTrue);
+      expect(notifier.state.isAuthenticated, isTrue);
+      expect(notifier.state.email, equals('patient@pulse.health'));
+      expect(notifier.state.error, isNull);
+    });
+
+    test('AuthNotifier login fails with incorrect password', () async {
+      final notifier = AuthNotifier();
+      final success = await notifier.login(
+        identifier: 'patient@pulse.health',
+        password: 'wrong_password_99',
+        role: 'patient',
+      );
+      expect(success, isFalse);
+      expect(notifier.state.error, isNotNull);
+    });
+
+    test('AuthNotifier register creates user and prevents duplicate', () async {
+      final notifier = AuthNotifier();
+      final uniqueEmail = 'test_${DateTime.now().millisecondsSinceEpoch}@pulse.health';
+      final success = await notifier.register(
+        name: 'Test Patient',
+        email: uniqueEmail,
+        password: 'secret_password_123',
+        role: 'patient',
+      );
+      expect(success, isTrue);
+      expect(notifier.state.isAuthenticated, isTrue);
+      expect(notifier.state.name, equals('Test Patient'));
+
+      final duplicateSuccess = await notifier.register(
+        name: 'Test Patient 2',
+        email: uniqueEmail,
+        password: 'secret_password_123',
+        role: 'patient',
+      );
+      expect(duplicateSuccess, isFalse);
+      expect(notifier.state.error, contains('already exists'));
+    });
+
+    test('AuthNotifier logout resets authentication state', () {
+      final notifier = AuthNotifier();
+      notifier.logout();
+      expect(notifier.state.isAuthenticated, isFalse);
+      expect(notifier.state.token, isNull);
+    });
+
     test('CheckinState initial defaults', () {
       final state = CheckinState();
       expect(state.mood, equals('Okay'));

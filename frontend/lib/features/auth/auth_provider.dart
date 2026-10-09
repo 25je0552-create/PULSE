@@ -1,6 +1,23 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import '../../core/network/api_client.dart';
 import '../../core/network/api_endpoints.dart';
+
+class LocalAuthUser {
+  final String name;
+  final String email;
+  final String password;
+  final String role;
+  final String phone;
+
+  LocalAuthUser({
+    required this.name,
+    required this.email,
+    required this.password,
+    required this.role,
+    required this.phone,
+  });
+}
 
 class AuthState {
   final bool isAuthenticated;
@@ -44,8 +61,28 @@ class AuthState {
 
 class AuthNotifier extends StateNotifier<AuthState> {
   final ApiClient _apiClient = ApiClient();
+  final List<LocalAuthUser> _localUsers = [
+    LocalAuthUser(
+      name: 'Ananya Sharma',
+      email: 'patient@pulse.health',
+      password: 'pulse123',
+      role: 'patient',
+      phone: '+91 98765 43210',
+    ),
+    LocalAuthUser(
+      name: 'Dr. Meera Sharma',
+      email: 'doctor@pulse.health',
+      password: 'pulse123',
+      role: 'doctor',
+      phone: '+91 98765 12345',
+    ),
+  ];
 
   AuthNotifier() : super(AuthState());
+
+  void clearError() {
+    state = state.copyWith(error: null);
+  }
 
   Future<bool> login({
     required String identifier,
@@ -53,14 +90,17 @@ class AuthNotifier extends StateNotifier<AuthState> {
     required String role,
   }) async {
     state = state.copyWith(isLoading: true, error: null);
+    final cleanIdentifier = identifier.trim().toLowerCase();
+    final cleanRole = role.trim().toLowerCase();
+
     try {
       final response = await _apiClient.post(
         ApiEndpoints.login,
         data: {
-          'identifier': identifier,
-          'email': identifier,
+          'identifier': identifier.trim(),
+          'email': identifier.trim(),
           'password': password,
-          'role': role,
+          'role': cleanRole,
         },
       );
 
@@ -72,9 +112,9 @@ class AuthNotifier extends StateNotifier<AuthState> {
         state = state.copyWith(
           isAuthenticated: true,
           token: token,
-          role: role,
-          name: user['name'] ?? 'Ananya Sharma',
-          email: user['email'] ?? identifier,
+          role: user['role'] ?? cleanRole,
+          name: user['name'] ?? (cleanRole == 'doctor' ? 'Dr. Meera Sharma' : 'Ananya Sharma'),
+          email: user['email'] ?? cleanIdentifier,
           isLoading: false,
           error: null,
         );
@@ -84,16 +124,59 @@ class AuthNotifier extends StateNotifier<AuthState> {
         state = state.copyWith(isLoading: false, error: msg.toString());
         return false;
       }
-    } catch (e) {
+    } on DioException catch (dioErr) {
+      if (dioErr.response != null && dioErr.response?.data != null) {
+        final data = dioErr.response!.data;
+        String msg = 'Invalid credentials';
+        if (data is Map && data['message'] != null) {
+          msg = data['message'].toString();
+        }
+        state = state.copyWith(isLoading: false, error: msg);
+        return false;
+      }
+
+      final matched = _localUsers.cast<LocalAuthUser?>().firstWhere(
+        (u) =>
+            u != null &&
+            (u.email.toLowerCase() == cleanIdentifier || u.phone == identifier.trim()) &&
+            u.role.toLowerCase() == cleanRole,
+        orElse: () => null,
+      );
+
+      if (matched == null) {
+        state = state.copyWith(
+          isLoading: false,
+          error: 'Invalid credentials. User not found.',
+        );
+        return false;
+      }
+
+      if (matched.password != password) {
+        state = state.copyWith(
+          isLoading: false,
+          error: 'Invalid credentials. Incorrect password.',
+        );
+        return false;
+      }
+
+      final mockToken = 'offline_jwt_${matched.role}_${DateTime.now().millisecondsSinceEpoch}';
+      _apiClient.setToken(mockToken);
       state = state.copyWith(
         isAuthenticated: true,
-        role: role,
-        name: role == 'patient' ? 'Ananya Sharma' : 'Dr. Meera Sharma',
-        email: identifier.isNotEmpty ? identifier : 'patient@pulse.health',
+        token: mockToken,
+        role: matched.role,
+        name: matched.name,
+        email: matched.email,
         isLoading: false,
         error: null,
       );
       return true;
+    } catch (e) {
+      state = state.copyWith(
+        isLoading: false,
+        error: 'An unexpected error occurred during sign in.',
+      );
+      return false;
     }
   }
 
@@ -105,15 +188,20 @@ class AuthNotifier extends StateNotifier<AuthState> {
     String role = 'patient',
   }) async {
     state = state.copyWith(isLoading: true, error: null);
+    final cleanEmail = email.trim().toLowerCase();
+    final cleanRole = role.trim().toLowerCase();
+    final cleanName = name.trim();
+    final cleanPhone = (phone != null && phone.trim().isNotEmpty) ? phone.trim() : '+91 98765 00000';
+
     try {
       final response = await _apiClient.post(
         ApiEndpoints.register,
         data: {
-          'name': name,
-          'email': email,
+          'name': cleanName,
+          'email': cleanEmail,
           'password': password,
-          'phone': phone ?? '+91 98765 00000',
-          'role': role,
+          'phone': cleanPhone,
+          'role': cleanRole,
         },
       );
 
@@ -125,9 +213,9 @@ class AuthNotifier extends StateNotifier<AuthState> {
         state = state.copyWith(
           isAuthenticated: true,
           token: token,
-          role: role,
-          name: user['name'] ?? name,
-          email: user['email'] ?? email,
+          role: user['role'] ?? cleanRole,
+          name: user['name'] ?? cleanName,
+          email: user['email'] ?? cleanEmail,
           isLoading: false,
           error: null,
         );
@@ -137,22 +225,74 @@ class AuthNotifier extends StateNotifier<AuthState> {
         state = state.copyWith(isLoading: false, error: msg.toString());
         return false;
       }
-    } catch (_) {
+    } on DioException catch (dioErr) {
+      if (dioErr.response != null && dioErr.response?.data != null) {
+        final data = dioErr.response!.data;
+        String msg = 'Registration failed';
+        if (data is Map && data['message'] != null) {
+          msg = data['message'].toString();
+        }
+        state = state.copyWith(isLoading: false, error: msg);
+        return false;
+      }
+
+      final existing = _localUsers.any((u) => u.email.toLowerCase() == cleanEmail);
+      if (existing) {
+        state = state.copyWith(
+          isLoading: false,
+          error: 'An account with this email already exists',
+        );
+        return false;
+      }
+
+      final newUser = LocalAuthUser(
+        name: cleanName,
+        email: cleanEmail,
+        password: password,
+        role: cleanRole,
+        phone: cleanPhone,
+      );
+      _localUsers.add(newUser);
+
+      final mockToken = 'offline_jwt_${cleanRole}_${DateTime.now().millisecondsSinceEpoch}';
+      _apiClient.setToken(mockToken);
       state = state.copyWith(
         isAuthenticated: true,
-        role: role,
-        name: name,
-        email: email,
+        token: mockToken,
+        role: cleanRole,
+        name: cleanName,
+        email: cleanEmail,
         isLoading: false,
         error: null,
       );
       return true;
+    } catch (_) {
+      state = state.copyWith(
+        isLoading: false,
+        error: 'An unexpected error occurred during account creation.',
+      );
+      return false;
     }
+  }
+
+  Future<bool> resetPassword(String email) async {
+    state = state.copyWith(isLoading: true, error: null);
+    await Future.delayed(const Duration(milliseconds: 500));
+    state = state.copyWith(isLoading: false, error: null);
+    return true;
   }
 
   void logout() {
     _apiClient.clearToken();
-    state = AuthState(isAuthenticated: false);
+    state = AuthState(
+      isAuthenticated: false,
+      token: null,
+      name: '',
+      email: '',
+      role: 'patient',
+      isLoading: false,
+      error: null,
+    );
   }
 }
 

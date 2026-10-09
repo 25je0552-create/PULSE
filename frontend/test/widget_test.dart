@@ -11,6 +11,7 @@ import 'package:pulse/features/records/records_screen.dart';
 import 'package:pulse/features/community/community_screen.dart';
 import 'package:pulse/core/routing/app_router.dart';
 import 'package:pulse/core/routing/app_routes.dart';
+import 'package:pulse/features/auth/login_screen.dart';
 
 void main() {
   testWidgets('Pulse app launches and renders splash screen', (WidgetTester tester) async {
@@ -181,6 +182,39 @@ void main() {
     await tester.tap(saveButton);
     await tester.pump(const Duration(milliseconds: 500));
     expect(find.text('Pulse AI'), findsWidgets);
+  });
+
+  testWidgets('Login screen renders, switches between modes, and triggers demo quick fill', (WidgetTester tester) async {
+    tester.view.physicalSize = const Size(360, 800);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(() => tester.view.resetPhysicalSize());
+
+    await tester.pumpWidget(
+      const ProviderScope(
+        child: MaterialApp(
+          home: LoginScreen(),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Welcome to Pulse'), findsOneWidget);
+    expect(find.text('Sign In'), findsOneWidget);
+    expect(find.text('Create Account'), findsOneWidget);
+    expect(find.text('Demo quick fill:'), findsOneWidget);
+
+    final doctorChip = find.text('Doctor');
+    expect(doctorChip, findsWidgets);
+    await tester.tap(doctorChip.first);
+    await tester.pumpAndSettle();
+    expect(find.text('Sign In as Doctor'), findsOneWidget);
+
+    final createAccountTab = find.text('Create Account');
+    await tester.tap(createAccountTab);
+    await tester.pumpAndSettle();
+    expect(find.text('Create your account'), findsOneWidget);
+    expect(find.text('Full Name'), findsOneWidget);
+    expect(find.text('Confirm Password'), findsOneWidget);
   });
 }
 
