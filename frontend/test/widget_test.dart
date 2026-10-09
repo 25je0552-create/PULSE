@@ -12,6 +12,8 @@ import 'package:pulse/features/community/community_screen.dart';
 import 'package:pulse/core/routing/app_router.dart';
 import 'package:pulse/core/routing/app_routes.dart';
 import 'package:pulse/features/auth/login_screen.dart';
+import 'package:pulse/features/doctalk/doc_talk_screen.dart';
+import 'package:pulse/features/doctalk/doc_talk_care_plans_screen.dart';
 
 void main() {
   testWidgets('Pulse app launches and renders splash screen', (WidgetTester tester) async {
@@ -215,6 +217,47 @@ void main() {
     expect(find.text('Create your account'), findsOneWidget);
     expect(find.text('Full Name'), findsOneWidget);
     expect(find.text('Confirm Password'), findsOneWidget);
+  });
+
+  testWidgets('DocTalk discovery screen renders care types, offer banner, and professionals without overflow', (WidgetTester tester) async {
+    tester.view.physicalSize = const Size(360, 640);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(() => tester.view.resetPhysicalSize());
+
+    await tester.pumpWidget(
+      const ProviderScope(
+        child: MaterialApp(
+          home: DocTalkScreen(),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('DocTalk'), findsOneWidget);
+    expect(find.text('Expert care, connected to your journey.'), findsOneWidget);
+    expect(find.text('Choose Care Type'), findsOneWidget);
+    expect(find.text('Mental wellbeing'), findsWidgets);
+    expect(find.text('General healthcare'), findsWidgets);
+    expect(find.text('Pooja Narang, M.Phil'), findsOneWidget);
+  });
+
+  testWidgets('DocTalk care plans screen renders provenance and recommendations without overflow', (WidgetTester tester) async {
+    tester.view.physicalSize = const Size(360, 640);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(() => tester.view.resetPhysicalSize());
+
+    await tester.pumpWidget(
+      const ProviderScope(
+        child: MaterialApp(
+          home: DocTalkCarePlansScreen(),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Care Plans & Advice'), findsOneWidget);
+    expect(find.text('Clinical Authorship Standards'), findsOneWidget);
+    expect(find.text('Professional Care Guidance'), findsOneWidget);
   });
 }
 

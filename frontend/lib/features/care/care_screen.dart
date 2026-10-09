@@ -80,6 +80,8 @@ class CareScreen extends ConsumerWidget {
                 style: AppTypography.bodyMedium.copyWith(color: AppColors.onSurfaceVariant),
               ),
               const SizedBox(height: 20),
+              _buildDocTalkFeatureCard(context),
+              const SizedBox(height: 20),
               _buildPrimaryPartnerCard(context, partner),
               const SizedBox(height: 20),
               _buildMultiDisciplineCard(careState.careTeam['disciplines'] as List<dynamic>? ?? []),
@@ -550,6 +552,117 @@ class CareScreen extends ConsumerWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildDocTalkFeatureCard(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          colors: [Color(0xFFE8F7F4), Color(0xFFEFF5FC)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.25)),
+      ),
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: AppColors.primary,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Icon(Icons.medical_services_outlined, color: Colors.white, size: 20),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'DocTalk Consultation',
+                      style: AppTypography.titleMedium.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.primary,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      'Doctors • Psychologists • Nutritionists',
+                      style: AppTypography.labelSmall.copyWith(color: AppColors.outline),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 6),
+              const PulseBadge(
+                text: '1st Free',
+                variant: PulseBadgeVariant.success,
+              ),
+            ],
+          ),
+          const SizedBox(height: 14),
+          Text(
+            'Expert care, connected to your journey.',
+            style: AppTypography.titleLarge.copyWith(fontWeight: FontWeight.w800),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            'Connect with qualified healthcare professionals for personalized guidance and care.',
+            style: AppTypography.bodySmall.copyWith(color: AppColors.onSurfaceVariant),
+          ),
+          const SizedBox(height: 16),
+          PulseButton(
+            text: 'Find a doctor or therapist',
+            icon: Icons.search,
+            onPressed: () => context.push(AppRoutes.docTalk),
+          ),
+          const SizedBox(height: 12),
+          Wrap(
+            spacing: 16,
+            runSpacing: 8,
+            children: [
+              InkWell(
+                onTap: () => context.push(AppRoutes.docTalkCarePlans),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.assignment_outlined, size: 16, color: AppColors.primary),
+                    const SizedBox(width: 4),
+                    Text(
+                      'View Care Plans',
+                      style: AppTypography.labelMedium.copyWith(color: AppColors.primary, fontWeight: FontWeight.w700),
+                    ),
+                  ],
+                ),
+              ),
+              InkWell(
+                onTap: () => context.push(AppRoutes.appointments),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.event_outlined, size: 16, color: AppColors.secondary),
+                    const SizedBox(width: 4),
+                    Text(
+                      'My Schedule',
+                      style: AppTypography.labelMedium.copyWith(color: AppColors.secondary, fontWeight: FontWeight.w700),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

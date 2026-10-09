@@ -38,4 +38,11 @@ class ApiEndpoints {
   static const String wellbeing = '/wellbeing';
   static const String wellbeingReflection = '/wellbeing/reflection';
   static const String safetyHelplines = '/safety/trusted-contact';
+
+  static const String docTalkCareTypes = '/doctalk/care-types';
+  static const String docTalkProfessionals = '/doctalk/professionals';
+  static const String docTalkOfferEligibility = '/doctalk/offer-eligibility';
+  static const String docTalkBook = '/doctalk/book';
+  static const String docTalkAppointments = '/doctalk/appointments';
+  static const String docTalkCarePlans = '/doctalk/care-plans';
 }

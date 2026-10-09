@@ -25,6 +25,11 @@ import '../../features/records/records_screen.dart';
 import '../../features/family/family_circle_screen.dart';
 import '../../features/profile/profile_screen.dart';
 import '../../features/community/community_screen.dart';
+import '../../features/doctalk/doc_talk_screen.dart';
+import '../../features/doctalk/doc_talk_profile_screen.dart';
+import '../../features/doctalk/doc_talk_booking_screen.dart';
+import '../../features/doctalk/doc_talk_care_plans_screen.dart';
+import '../../features/doctalk/doc_talk_consultation_screen.dart';
 import 'app_routes.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -151,6 +156,37 @@ final GoRouter appRouter = GoRouter(
       path: AppRoutes.family,
       parentNavigatorKey: _rootNavigatorKey,
       builder: (context, state) => const FamilyCircleScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.docTalk,
+      parentNavigatorKey: _rootNavigatorKey,
+      builder: (context, state) => const DocTalkScreen(),
+    ),
+    GoRoute(
+      path: '${AppRoutes.docTalkProfile}/:id',
+      parentNavigatorKey: _rootNavigatorKey,
+      builder: (context, state) => DocTalkProfileScreen(
+        professionalId: state.pathParameters['id'],
+      ),
+    ),
+    GoRoute(
+      path: '${AppRoutes.docTalkBooking}/:id',
+      parentNavigatorKey: _rootNavigatorKey,
+      builder: (context, state) => DocTalkBookingScreen(
+        professionalId: state.pathParameters['id'],
+      ),
+    ),
+    GoRoute(
+      path: AppRoutes.docTalkCarePlans,
+      parentNavigatorKey: _rootNavigatorKey,
+      builder: (context, state) => const DocTalkCarePlansScreen(),
+    ),
+    GoRoute(
+      path: '${AppRoutes.docTalkConsultation}/:id',
+      parentNavigatorKey: _rootNavigatorKey,
+      builder: (context, state) => DocTalkConsultationScreen(
+        appointmentId: state.pathParameters['id'],
+      ),
     ),
   ],
 );

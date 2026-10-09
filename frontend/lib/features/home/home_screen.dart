@@ -86,6 +86,8 @@ class HomeScreen extends ConsumerWidget {
               const SizedBox(height: 20),
               _buildCareTeamCard(context, homeState.careTeamStatus),
               const SizedBox(height: 20),
+              _buildDocTalkShortcutCard(context),
+              const SizedBox(height: 20),
               _buildQuickLaunchpadSection(context),
               const SizedBox(height: 24),
             ],
@@ -575,6 +577,71 @@ class HomeScreen extends ConsumerWidget {
                 ),
               ],
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDocTalkShortcutCard(BuildContext context) {
+    return PulseCard(
+      padding: const EdgeInsets.all(18),
+      backgroundColor: const Color(0xFFF0FAF8),
+      borderColor: const Color(0xFF89F5E7),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: AppColors.primary,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Icon(Icons.medical_services_outlined, color: Colors.white, size: 20),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'DocTalk Consultations',
+                      style: AppTypography.titleMedium.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                    Text(
+                      'Direct doctor & therapist access',
+                      style: AppTypography.labelSmall.copyWith(color: AppColors.outline),
+                    ),
+                  ],
+                ),
+              ),
+              const PulseBadge(
+                text: '1st Free Offer',
+                variant: PulseBadgeVariant.success,
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Text(
+            'Expert care, connected to your journey.',
+            style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            'Consult certified doctors, clinical psychologists, and nutritionists with your tracked progress context.',
+            style: AppTypography.bodySmall.copyWith(color: AppColors.onSurfaceVariant),
+          ),
+          const SizedBox(height: 14),
+          PulseButton(
+            text: 'Find a doctor or therapist',
+            icon: Icons.search,
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+            onPressed: () => context.push(AppRoutes.docTalk),
           ),
         ],
       ),

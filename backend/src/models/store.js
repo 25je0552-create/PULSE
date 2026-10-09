@@ -479,6 +479,182 @@ const store = {
       text: 'Taking brief moments to step back can give your nervous system a pause. Would you like a 2-minute breathing reset or ideas on setting gentle boundaries today?',
       timestamp: '08:33 AM'
     }
+  ],
+
+  careTypes: [
+    'General healthcare',
+    'Mental wellbeing',
+    'Psychology and therapy',
+    'Nutrition and lifestyle',
+    'Ongoing health conditions',
+    'Other healthcare needs'
+  ],
+
+  introductoryOffer: {
+    id: 'offer_intro_first_free',
+    code: 'FIRST_CONSULT_FREE',
+    title: 'First Consultation Free',
+    description: 'Complimentary 45-minute initial doctor or therapist consultation for your wellbeing journey.',
+    discountPercent: 100,
+    enabled: true,
+    activeUntil: '2026-12-31'
+  },
+
+  offerRedemptions: [],
+
+  healthcareProfessionals: [
+    {
+      id: 'pro_1',
+      name: 'Dr. Meera Sharma, MD',
+      role: 'Consultant Physician & Women\'s Health Specialist',
+      careTypes: ['General healthcare', 'Ongoing health conditions'],
+      specialties: ['Internal Medicine', 'Metabolic Health', 'Endocrinology'],
+      isVerified: true,
+      verificationNote: 'National Medical Commission (NMC) Registered',
+      qualification: 'MBBS, MD (Internal Medicine)',
+      experienceYears: 12,
+      languages: ['English', 'Hindi', 'Kannada'],
+      clinicOrOrg: 'St. Jude Health Center, Bengaluru',
+      fee: 1200,
+      modes: ['Video Consultation', 'Audio Call', 'In-clinic'],
+      bio: 'Specializes in preventive healthcare, metabolic harmony, and continuous wellbeing monitoring between clinical consultations.',
+      isSyntheticDemo: true,
+      availableSlots: [
+        { id: 'slot_1_1', date: '2026-10-10', time: '10:00 AM', mode: 'Video Consultation', isBooked: false },
+        { id: 'slot_1_2', date: '2026-10-10', time: '02:30 PM', mode: 'Audio Call', isBooked: false },
+        { id: 'slot_1_3', date: '2026-10-11', time: '11:00 AM', mode: 'Video Consultation', isBooked: false },
+        { id: 'slot_1_4', date: '2026-10-12', time: '04:00 PM', mode: 'In-clinic', isBooked: false }
+      ]
+    },
+    {
+      id: 'pro_2',
+      name: 'Pooja Narang, M.Phil',
+      role: 'Clinical Psychologist & Cognitive Therapist',
+      careTypes: ['Mental wellbeing', 'Psychology and therapy'],
+      specialties: ['CBT Therapy', 'Anxiety & Work Burnout', 'Stress Cadence'],
+      isVerified: true,
+      verificationNote: 'Rehabilitation Council of India (RCI) Registered',
+      qualification: 'M.Phil in Clinical Psychology (NIMHANS)',
+      experienceYears: 9,
+      languages: ['English', 'Hindi'],
+      clinicOrOrg: 'Mindful Living Sanctuary, Bengaluru',
+      fee: 1500,
+      modes: ['Video Consultation', 'Audio Call'],
+      bio: 'Dedicated to evidence-based psychotherapy, helping adults navigate work fatigue, emotional regulation, and persistent stress cycles.',
+      isSyntheticDemo: true,
+      availableSlots: [
+        { id: 'slot_2_1', date: '2026-10-10', time: '11:30 AM', mode: 'Video Consultation', isBooked: false },
+        { id: 'slot_2_2', date: '2026-10-10', time: '05:00 PM', mode: 'Video Consultation', isBooked: false },
+        { id: 'slot_2_3', date: '2026-10-11', time: '03:00 PM', mode: 'Audio Call', isBooked: false }
+      ]
+    },
+    {
+      id: 'pro_3',
+      name: 'Dr. Rohan Kulkarni, MD',
+      role: 'Consultant Psychiatrist & Neuro-wellness Lead',
+      careTypes: ['Mental wellbeing', 'Psychology and therapy'],
+      specialties: ['Psychiatry', 'Neurobiology', 'Mood Disorders'],
+      isVerified: true,
+      verificationNote: 'Karnataka Medical Council Registered Specialist',
+      qualification: 'MBBS, MD (Psychiatry), DNB',
+      experienceYears: 14,
+      languages: ['English', 'Hindi', 'Marathi'],
+      clinicOrOrg: 'Apex Neuro-Behavioral Institute, Bengaluru',
+      fee: 1800,
+      modes: ['Video Consultation', 'In-clinic'],
+      bio: 'Provides thorough clinical psychiatric assessments with strong emphasis on non-judgmental dialogue and evidence-based routines.',
+      isSyntheticDemo: true,
+      availableSlots: [
+        { id: 'slot_3_1', date: '2026-10-11', time: '10:00 AM', mode: 'Video Consultation', isBooked: false },
+        { id: 'slot_3_2', date: '2026-10-12', time: '02:00 PM', mode: 'In-clinic', isBooked: false }
+      ]
+    },
+    {
+      id: 'pro_4',
+      name: 'Ananya Deshmukh, RD',
+      role: 'Clinical Nutritionist & Metabolic Coach',
+      careTypes: ['Nutrition and lifestyle', 'Ongoing health conditions'],
+      specialties: ['Gut Health', 'Hormonal Balance', 'Anti-inflammatory Diets'],
+      isVerified: true,
+      verificationNote: 'Indian Dietetic Association (IDA) Certified',
+      qualification: 'M.Sc Clinical Nutrition & Dietetics',
+      experienceYears: 8,
+      languages: ['English', 'Hindi'],
+      clinicOrOrg: 'Pulse Holistic Nutrition Lab',
+      fee: 950,
+      modes: ['Video Consultation', 'Audio Call'],
+      bio: 'Integrates culturally grounded nutrition protocols with sleep rhythm synchronization for lasting energy stability.',
+      isSyntheticDemo: true,
+      availableSlots: [
+        { id: 'slot_4_1', date: '2026-10-10', time: '09:00 AM', mode: 'Video Consultation', isBooked: false },
+        { id: 'slot_4_2', date: '2026-10-11', time: '04:30 PM', mode: 'Audio Call', isBooked: false }
+      ]
+    },
+    {
+      id: 'pro_5',
+      name: 'Dr. Siddharth Rao, MS',
+      role: 'Family Medicine & Preventive Healthcare Physician',
+      careTypes: ['General healthcare', 'Other healthcare needs'],
+      specialties: ['Family Medicine', 'Preventive Screenings', 'Acute Care'],
+      isVerified: true,
+      verificationNote: 'Medical Council of India Verified',
+      qualification: 'MBBS, MS (Family Medicine)',
+      experienceYears: 11,
+      languages: ['English', 'Tamil', 'Kannada'],
+      clinicOrOrg: 'Community Care Health Collective',
+      fee: 800,
+      modes: ['Video Consultation', 'In-clinic'],
+      bio: 'Compassionate general physician experienced in whole-family preventive screenings and regular continuity reviews.',
+      isSyntheticDemo: true,
+      availableSlots: [
+        { id: 'slot_5_1', date: '2026-10-10', time: '01:00 PM', mode: 'Video Consultation', isBooked: false },
+        { id: 'slot_5_2', date: '2026-10-12', time: '11:00 AM', mode: 'In-clinic', isBooked: false }
+      ]
+    }
+  ],
+
+  carePlans: [
+    {
+      id: 'cp_1',
+      patientId: 'usr_patient_1',
+      professionalName: 'Dr. Meera Sharma, MD',
+      professionalRole: 'Consultant Physician',
+      appointmentId: 'apt_1',
+      date: '2026-09-24',
+      authorType: 'professional',
+      summary: 'Post-consultation follow-up protocol targeting cortisol regulation and sleep hygiene cadence.',
+      recommendations: [
+        {
+          id: 'rec_1',
+          title: '15-minute Morning Sunlight Walk',
+          category: 'Movement',
+          description: 'Aids natural cortisol peak rhythm and assists serotonin balance.',
+          frequency: 'Daily',
+          durationMinutes: 15,
+          adoptedAsGoal: true
+        },
+        {
+          id: 'rec_2',
+          title: 'Evening Digital Screen Pause at 9:30 PM',
+          category: 'Rest',
+          description: 'Minimizes blue spectrum light to optimize melatonin secretion and decrease wakefulness fragmentation.',
+          frequency: 'Daily',
+          durationMinutes: 30,
+          adoptedAsGoal: false
+        },
+        {
+          id: 'rec_3',
+          title: 'Magnesium-Rich Evening Snack Cadence',
+          category: 'Nutrition',
+          description: 'Incorporate pumpkin seeds or warm chamomile infusion before sleep.',
+          frequency: 'Nightly',
+          durationMinutes: 10,
+          adoptedAsGoal: false
+        }
+      ],
+      followUpNote: 'Re-evaluate sleep quality and energy stability in 30 days if fragmentation continues.',
+      nextRecommendedDate: '2026-10-24'
+    }
   ]
 };
 

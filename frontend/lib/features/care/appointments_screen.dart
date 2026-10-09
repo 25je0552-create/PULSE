@@ -83,6 +83,13 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
               ),
               const SizedBox(height: 16),
               _buildUpcomingCard(),
+              const SizedBox(height: 16),
+              PulseButton(
+                text: 'Find a doctor or therapist on DocTalk',
+                icon: Icons.search,
+                variant: PulseButtonVariant.outlined,
+                onPressed: () => context.push(AppRoutes.docTalk),
+              ),
               const SizedBox(height: 20),
               _buildUsefulConsultationCard(),
               const SizedBox(height: 20),

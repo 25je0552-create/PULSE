@@ -28,4 +28,10 @@ class AppRoutes {
   static const String records = '/patient/records';
   static const String family = '/patient/family';
   static const String profile = '/patient/profile';
+
+  static const String docTalk = '/patient/doctalk';
+  static const String docTalkProfile = '/patient/doctalk/professional';
+  static const String docTalkBooking = '/patient/doctalk/book';
+  static const String docTalkCarePlans = '/patient/doctalk/care-plans';
+  static const String docTalkConsultation = '/patient/doctalk/consultation';
 }

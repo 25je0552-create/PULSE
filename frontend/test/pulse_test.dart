@@ -8,6 +8,7 @@ import 'package:pulse/features/auth/auth_provider.dart';
 import 'package:pulse/features/checkin/checkin_provider.dart';
 import 'package:pulse/features/pulse_ai/ai_provider.dart';
 import 'package:pulse/features/goals/goals_provider.dart';
+import 'package:pulse/features/doctalk/doctalk_provider.dart';
 
 void main() {
   group('Pulse Theme & Constants', () {
@@ -153,6 +154,58 @@ void main() {
       expect(state.isLoading, isFalse);
       expect(state.activeGoal.title, equals('Gentle Walk'));
       expect(state.alternatives, isEmpty);
+    });
+
+    test('DocTalkNotifier initializes with 6 care types and synthetic professionals', () {
+      final notifier = DocTalkNotifier();
+      expect(notifier.state.careTypes.length, equals(6));
+      expect(notifier.state.careTypes.contains('Mental wellbeing'), isTrue);
+      expect(notifier.state.careTypes.contains('General healthcare'), isTrue);
+      expect(notifier.state.professionals.length, greaterThanOrEqualTo(5));
+      expect(notifier.state.offerEligible, isTrue);
+    });
+
+    test('DocTalkNotifier filters professionals by care type and search query', () {
+      final notifier = DocTalkNotifier();
+      notifier.selectCareType('Mental wellbeing');
+      final mentalPros = notifier.state.filteredProfessionals;
+      expect(mentalPros.every((p) => p.careTypes.contains('Mental wellbeing')), isTrue);
+
+      notifier.setSearchQuery('Pooja');
+      final searchPros = notifier.state.filteredProfessionals;
+      expect(searchPros.length, equals(1));
+      expect(searchPros.first.name, contains('Pooja Narang'));
+    });
+
+    test('DocTalkNotifier selects professional and books appointment', () async {
+      final notifier = DocTalkNotifier();
+      final pro = notifier.state.professionals.first;
+      notifier.selectProfessional(pro);
+
+      expect(notifier.state.selectedProfessional, isNotNull);
+      expect(notifier.state.selectedSlot, isNotNull);
+
+      final bookSuccess = await notifier.bookAppointment(
+        reason: 'Discuss sleep fragmentation',
+        sharePreConsultSummary: true,
+        applyIntroductoryOffer: true,
+      );
+
+      expect(bookSuccess, isTrue);
+      expect(notifier.state.bookingSuccess, isTrue);
+      expect(notifier.state.lastBookedAppointment, isNotNull);
+      expect(notifier.state.lastBookedAppointment?.finalFee, equals(0.0));
+    });
+
+    test('DocTalkNotifier adopts doctor recommendation into care plan goals', () async {
+      final notifier = DocTalkNotifier();
+      final plan = notifier.state.carePlans.first;
+      final rec = plan.recommendations.first;
+
+      final success = await notifier.adoptRecommendationAsGoal(plan.id, rec.id);
+      expect(success, isTrue);
+      final updatedPlan = notifier.state.carePlans.firstWhere((p) => p.id == plan.id);
+      expect(updatedPlan.recommendations.first.adoptedAsGoal, isTrue);
     });
   });
 }

@@ -15,6 +15,7 @@ const recordsRoutes = require('./routes/recordsRoutes');
 const familyRoutes = require('./routes/familyRoutes');
 const wellbeingRoutes = require('./routes/wellbeingRoutes');
 const safetyRoutes = require('./routes/safetyRoutes');
+const doctalkRoutes = require('./routes/doctalkRoutes');
 
 const app = express();
 
@@ -40,7 +41,8 @@ app.get('/', (req, res) => {
       records: '/api/records',
       family: '/api/family',
       wellbeing: '/api/wellbeing',
-      safety: '/api/safety'
+      safety: '/api/safety',
+      doctalk: '/api/doctalk'
     }
   });
 });
@@ -65,6 +67,7 @@ app.use('/api/records', recordsRoutes);
 app.use('/api/family', familyRoutes);
 app.use('/api/wellbeing', wellbeingRoutes);
 app.use('/api/safety', safetyRoutes);
+app.use('/api/doctalk', doctalkRoutes);
 
 app.use(errorHandler);
 
