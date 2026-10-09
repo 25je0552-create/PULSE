@@ -70,7 +70,7 @@ class AwarenessScreen extends ConsumerWidget {
               const Row(
                 children: [
                   PulseBadge(
-                    text: 'Stage 02 · Understand & Educate',
+                    text: 'Understand & Educate',
                     variant: PulseBadgeVariant.primary,
                   ),
                 ],

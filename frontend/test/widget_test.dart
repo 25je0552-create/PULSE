@@ -126,7 +126,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('STAGE 05 · SECURE PERSONAL ARCHIVE'), findsOneWidget);
+    expect(find.text('SECURE PERSONAL ARCHIVE'), findsOneWidget);
     expect(find.text('Browse by category'), findsOneWidget);
   });
 }

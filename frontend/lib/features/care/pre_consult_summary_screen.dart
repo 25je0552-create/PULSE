@@ -61,7 +61,7 @@ class _PreConsultSummaryScreenState extends ConsumerState<PreConsultSummaryScree
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'STAGE 05 · HUMAN REVIEW PREP',
+                'HUMAN REVIEW PREP',
                 style: AppTypography.labelSmall.copyWith(color: AppColors.primary, fontWeight: FontWeight.w700),
               ),
               const SizedBox(height: 4),

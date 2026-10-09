@@ -60,7 +60,7 @@ class CareScreen extends ConsumerWidget {
                 runSpacing: 6,
                 children: [
                   PulseBadge(
-                    text: 'Stage 05 · Human Review',
+                    text: 'Human Review',
                     variant: PulseBadgeVariant.primary,
                   ),
                   PulseBadge(
@@ -433,7 +433,7 @@ class CareScreen extends ConsumerWidget {
             children: [
               const Flexible(
                 child: PulseBadge(
-                  text: 'Stage 05 · Secure Archive',
+                  text: 'Secure Archive',
                   variant: PulseBadgeVariant.primary,
                 ),
               ),

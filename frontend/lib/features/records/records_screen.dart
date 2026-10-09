@@ -655,7 +655,7 @@ class _RecordsScreenState extends ConsumerState<RecordsScreen> {
                   const SizedBox(width: 6),
                   Flexible(
                     child: Text(
-                      'STAGE 05 · SECURE PERSONAL ARCHIVE',
+                      'SECURE PERSONAL ARCHIVE',
                       style: AppTypography.labelSmall.copyWith(
                         color: const Color(0xFF00201D),
                         fontWeight: FontWeight.w700,

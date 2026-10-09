@@ -38,7 +38,7 @@ class ProgressScreen extends ConsumerWidget {
             padding: EdgeInsets.only(right: 16),
             child: Center(
               child: PulseBadge(
-                text: 'Stage 04 · Measure',
+                text: 'Measure',
                 variant: PulseBadgeVariant.primary,
               ),
             ),
