@@ -16,6 +16,9 @@ class PulseButton extends StatelessWidget {
   final IconData? icon;
   final bool isFullWidth;
   final bool isLoading;
+  final EdgeInsetsGeometry? padding;
+  final int maxLines;
+  final double? fontSize;
 
   const PulseButton({
     super.key,
@@ -25,11 +28,17 @@ class PulseButton extends StatelessWidget {
     this.icon,
     this.isFullWidth = true,
     this.isLoading = false,
+    this.padding,
+    this.maxLines = 2,
+    this.fontSize,
   });
 
   @override
   Widget build(BuildContext context) {
     Widget content;
+    final textStyle = _getTextStyle();
+    final effectivePadding = padding ?? const EdgeInsets.symmetric(horizontal: 14, vertical: 12);
+
     if (isLoading) {
       content = const SizedBox(
         height: 20,
@@ -47,22 +56,23 @@ class PulseButton extends StatelessWidget {
           Flexible(
             child: Text(
               text,
-              style: _getTextStyle(),
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
+              style: textStyle,
+              textAlign: TextAlign.center,
+              softWrap: true,
+              maxLines: maxLines,
             ),
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: 6),
           Icon(icon, size: 18, color: _getIconColor()),
         ],
       );
     } else {
       content = Text(
         text,
-        style: _getTextStyle(),
+        style: textStyle,
         textAlign: TextAlign.center,
-        overflow: TextOverflow.ellipsis,
-        maxLines: 1,
+        softWrap: true,
+        maxLines: maxLines,
       );
     }
 
@@ -75,7 +85,7 @@ class PulseButton extends StatelessWidget {
             backgroundColor: AppColors.primary,
             foregroundColor: AppColors.onPrimary,
             elevation: 0,
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            padding: effectivePadding,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
@@ -91,7 +101,7 @@ class PulseButton extends StatelessWidget {
             backgroundColor: AppColors.secondaryFixed,
             foregroundColor: AppColors.secondary,
             elevation: 0,
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            padding: effectivePadding,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
@@ -106,7 +116,7 @@ class PulseButton extends StatelessWidget {
           style: OutlinedButton.styleFrom(
             foregroundColor: AppColors.primary,
             side: const BorderSide(color: AppColors.primary, width: 1.5),
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            padding: effectivePadding,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
@@ -120,7 +130,7 @@ class PulseButton extends StatelessWidget {
           onPressed: isLoading ? null : onPressed,
           style: TextButton.styleFrom(
             foregroundColor: AppColors.onSurfaceVariant,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            padding: effectivePadding,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             ),
@@ -141,16 +151,25 @@ class PulseButton extends StatelessWidget {
   }
 
   TextStyle _getTextStyle() {
+    TextStyle base;
     switch (variant) {
       case PulseButtonVariant.primary:
-        return AppTypography.labelLarge.copyWith(color: AppColors.onPrimary);
+        base = AppTypography.labelLarge.copyWith(color: AppColors.onPrimary);
+        break;
       case PulseButtonVariant.secondary:
-        return AppTypography.labelLarge.copyWith(color: AppColors.secondary);
+        base = AppTypography.labelLarge.copyWith(color: AppColors.secondary);
+        break;
       case PulseButtonVariant.outlined:
-        return AppTypography.labelLarge.copyWith(color: AppColors.primary);
+        base = AppTypography.labelLarge.copyWith(color: AppColors.primary);
+        break;
       case PulseButtonVariant.ghost:
-        return AppTypography.labelMedium.copyWith(color: AppColors.onSurfaceVariant);
+        base = AppTypography.labelMedium.copyWith(color: AppColors.onSurfaceVariant);
+        break;
     }
+    if (fontSize != null) {
+      return base.copyWith(fontSize: fontSize);
+    }
+    return base;
   }
 
   Color _getIconColor() {

@@ -203,6 +203,13 @@ class _CheckinScreenState extends ConsumerState<CheckinScreen> {
                 isLoading: checkinState.isSubmitting,
                 onPressed: _handleSubmit,
               ),
+              const SizedBox(height: 10),
+              PulseButton(
+                text: 'Go to Wellbeing Space',
+                variant: PulseButtonVariant.outlined,
+                icon: Icons.spa_outlined,
+                onPressed: () => context.push(AppRoutes.wellbeing),
+              ),
               const SizedBox(height: 20),
             ],
           ),

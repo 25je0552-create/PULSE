@@ -91,6 +91,8 @@ class CareScreen extends ConsumerWidget {
               _buildHealthRecordsVaultCard(context),
               const SizedBox(height: 20),
               _buildFamilyCircleTeaserCard(context),
+              const SizedBox(height: 20),
+              _buildWellbeingSpaceTeaserCard(context),
               const SizedBox(height: 24),
             ],
           ),
@@ -339,13 +341,17 @@ class CareScreen extends ConsumerWidget {
                 child: PulseButton(
                   text: 'View details',
                   variant: PulseButtonVariant.outlined,
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+                  fontSize: 13,
                   onPressed: () => context.push(AppRoutes.appointments),
                 ),
               ),
-              const SizedBox(width: 10),
+              const SizedBox(width: 8),
               Expanded(
                 child: PulseButton(
                   text: 'Prepare notes',
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+                  fontSize: 13,
                   onPressed: () => context.push(AppRoutes.preConsult),
                 ),
               ),
@@ -603,6 +609,45 @@ class CareScreen extends ConsumerWidget {
             variant: PulseButtonVariant.outlined,
             icon: Icons.people_outline,
             onPressed: () => context.push(AppRoutes.family),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildWellbeingSpaceTeaserCard(BuildContext context) {
+    return PulseCard(
+      backgroundColor: const Color(0xFFF2F3FF),
+      borderColor: const Color(0xFFE2E7FF),
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              PulseBadge(
+                text: 'Signal · Reflection · Support',
+                variant: PulseBadgeVariant.primary,
+              ),
+              Icon(Icons.spa, color: Color(0xFF00685F), size: 20),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Text(
+            'Personal Wellbeing Space',
+            style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            'Check in with yourself between appointments. Track your personal rhythm, log private reflections, and prepare your wellbeing summary for your care team.',
+            style: AppTypography.bodySmall.copyWith(color: AppColors.onSurfaceVariant),
+          ),
+          const SizedBox(height: 16),
+          PulseButton(
+            text: 'Open Wellbeing Space',
+            icon: Icons.spa_outlined,
+            onPressed: () => context.push(AppRoutes.wellbeing),
           ),
         ],
       ),

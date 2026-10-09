@@ -296,13 +296,17 @@ class DoctorProfileScreen extends StatelessWidget {
                 child: PulseButton(
                   text: 'View appointment',
                   variant: PulseButtonVariant.outlined,
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+                  fontSize: 13,
                   onPressed: () => context.push(AppRoutes.appointments),
                 ),
               ),
-              const SizedBox(width: 10),
+              const SizedBox(width: 8),
               Expanded(
                 child: PulseButton(
                   text: 'Prepare summary',
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+                  fontSize: 13,
                   onPressed: () => context.push(AppRoutes.preConsult),
                 ),
               ),

@@ -82,6 +82,8 @@ class HomeScreen extends ConsumerWidget {
               const SizedBox(height: 20),
               _buildNextSmallStepCard(context, homeState.nextSmallStep),
               const SizedBox(height: 20),
+              _buildWellbeingSpaceCard(context),
+              const SizedBox(height: 20),
               _buildProgressCard(context, homeState.progressSummary),
               const SizedBox(height: 20),
               _buildCareTeamCard(context, homeState.careTeamStatus),
@@ -132,10 +134,123 @@ class HomeScreen extends ConsumerWidget {
             style: AppTypography.bodySmall.copyWith(color: AppColors.onSurfaceVariant),
           ),
           const SizedBox(height: 16),
+          Row(
+            children: [
+              Expanded(
+                child: PulseButton(
+                  text: 'Check in',
+                  icon: Icons.arrow_forward,
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+                  onPressed: () => context.push(AppRoutes.checkin),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: PulseButton(
+                  text: 'Wellbeing space',
+                  variant: PulseButtonVariant.outlined,
+                  icon: Icons.spa_outlined,
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+                  onPressed: () => context.push(AppRoutes.wellbeing),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildWellbeingSpaceCard(BuildContext context) {
+    return PulseCard(
+      backgroundColor: const Color(0xFFF2F3FF),
+      borderColor: const Color(0xFFE2E7FF),
+      padding: const EdgeInsets.all(18),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Row(
+                children: [
+                  Icon(Icons.spa, color: Color(0xFF00685F), size: 18),
+                  SizedBox(width: 6),
+                  Text(
+                    'Mental Wellbeing & Reflection',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xFF131B2E),
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFCCE5FF),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Text(
+                  'Private',
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFF001D31),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Text(
+            'Take a moment to check in with yourself. Explore your signals, write private reflections, and build adaptive habits.',
+            style: AppTypography.bodySmall.copyWith(color: const Color(0xFF3D4947)),
+          ),
+          const SizedBox(height: 14),
+          Row(
+            children: [
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const Row(
+                    children: [
+                      Icon(Icons.sentiment_satisfied, size: 16, color: Color(0xFF00685F)),
+                      SizedBox(width: 6),
+                      Text('Mood: Okay', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600)),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const Row(
+                    children: [
+                      Icon(Icons.waves, size: 16, color: Color(0xFF006398)),
+                      SizedBox(width: 6),
+                      Text('Stress: Moderate', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600)),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 14),
           PulseButton(
-            text: 'Check in',
+            text: 'Open Wellbeing Space',
             icon: Icons.arrow_forward,
-            onPressed: () => context.push(AppRoutes.checkin),
+            onPressed: () => context.push(AppRoutes.wellbeing),
           ),
         ],
       ),
@@ -448,6 +563,16 @@ class HomeScreen extends ConsumerWidget {
                   'Health records →',
                   style: AppTypography.labelLarge.copyWith(
                     color: AppColors.secondary,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () => context.push(AppRoutes.wellbeing),
+                child: Text(
+                  'Wellbeing →',
+                  style: AppTypography.labelLarge.copyWith(
+                    color: const Color(0xFF00685F),
                     fontWeight: FontWeight.w700,
                   ),
                 ),

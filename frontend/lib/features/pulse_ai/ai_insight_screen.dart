@@ -311,14 +311,18 @@ class _AiInsightScreenState extends State<AiInsightScreen> {
                 Expanded(
                   child: PulseButton(
                     text: 'Set this as my goal',
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+                    fontSize: 12.5,
                     onPressed: _handleSetGoal,
                   ),
                 ),
-                const SizedBox(width: 10),
+                const SizedBox(width: 8),
                 Expanded(
                   child: PulseButton(
                     text: 'Choose another',
                     variant: PulseButtonVariant.outlined,
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+                    fontSize: 12.5,
                     onPressed: () => context.push(AppRoutes.adaptiveGoal),
                   ),
                 ),

@@ -182,6 +182,11 @@ class _PulseAiScreenState extends ConsumerState<PulseAiScreen> {
             ),
           ),
           IconButton(
+            icon: const Icon(Icons.spa_outlined, color: AppColors.primary),
+            tooltip: 'Wellbeing Space',
+            onPressed: () => context.push(AppRoutes.wellbeing),
+          ),
+          IconButton(
             icon: const Icon(Icons.health_and_safety_outlined, color: AppColors.error),
             tooltip: 'Safety & Emergency Help',
             onPressed: () => context.push(AppRoutes.safety),
@@ -610,6 +615,8 @@ class _PulseAiScreenState extends ConsumerState<PulseAiScreen> {
                 child: PulseButton(
                   text: 'Tele-MANAS (14416)',
                   variant: PulseButtonVariant.primary,
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 11),
+                  fontSize: 12,
                   onPressed: () {},
                 ),
               ),
@@ -618,6 +625,8 @@ class _PulseAiScreenState extends ConsumerState<PulseAiScreen> {
                 child: PulseButton(
                   text: 'Safety Screen',
                   variant: PulseButtonVariant.outlined,
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 11),
+                  fontSize: 12,
                   onPressed: () => context.push(AppRoutes.safety),
                 ),
               ),

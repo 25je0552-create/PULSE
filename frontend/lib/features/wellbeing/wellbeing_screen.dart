@@ -5,10 +5,6 @@ import '../../core/network/api_endpoints.dart';
 import '../../core/routing/app_routes.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
-import '../../core/widgets/pulse_badge.dart';
-import '../../core/widgets/pulse_button.dart';
-import '../../core/widgets/pulse_card.dart';
-import '../../core/widgets/pulse_text_field.dart';
 
 class WellbeingScreen extends StatefulWidget {
   const WellbeingScreen({super.key});
@@ -22,6 +18,7 @@ class _WellbeingScreenState extends State<WellbeingScreen> {
     text: 'I\'ve been feeling overwhelmed with work lately.',
   );
   bool _saved = false;
+  bool _microStepScheduled = false;
 
   @override
   void dispose() {
@@ -36,59 +33,203 @@ class _WellbeingScreenState extends State<WellbeingScreen> {
       data: {'text': _reflectionController.text.trim()},
     );
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Reflection saved locally and kept private.')),
+      const SnackBar(
+        content: Text('Reflection saved locally and kept private.'),
+        duration: Duration(seconds: 3),
+      ),
+    );
+  }
+
+  void _showCalendarHistoryModal() {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (ctx) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Wellbeing History & Rhythm',
+                  style: AppTypography.titleLarge.copyWith(fontWeight: FontWeight.w700),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.close),
+                  onPressed: () => Navigator.pop(ctx),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Self-reported records are personal and help uncover patterns across weeks.',
+              style: AppTypography.bodySmall.copyWith(color: AppColors.onSurfaceVariant),
+            ),
+            const SizedBox(height: 16),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF2F3FF),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  _buildHistoryDay('Mon', 'Okay', const Color(0xFF00685F)),
+                  _buildHistoryDay('Tue', 'Calm', const Color(0xFF00685F)),
+                  _buildHistoryDay('Wed', 'Tense', const Color(0xFFD97706)),
+                  _buildHistoryDay('Thu', 'Tired', const Color(0xFF4648D4)),
+                  _buildHistoryDay('Today', 'Okay', const Color(0xFF00685F)),
+                ],
+              ),
+            ),
+            const SizedBox(height: 20),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                ),
+                onPressed: () {
+                  Navigator.pop(ctx);
+                  context.push(AppRoutes.progress);
+                },
+                child: const Text('View detailed progress trends', style: TextStyle(fontWeight: FontWeight.w700)),
+              ),
+            ),
+            const SizedBox(height: 8),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHistoryDay(String day, String status, Color color) {
+    return Column(
+      children: [
+        Text(day, style: AppTypography.labelSmall.copyWith(color: AppColors.outline)),
+        const SizedBox(height: 4),
+        Container(
+          width: 10,
+          height: 10,
+          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+        ),
+        const SizedBox(height: 4),
+        Text(status, style: AppTypography.labelSmall.copyWith(fontSize: 10, fontWeight: FontWeight.w600)),
+      ],
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.surface,
+      backgroundColor: const Color(0xFFFAF8FF),
       appBar: AppBar(
-        backgroundColor: AppColors.surface,
+        backgroundColor: const Color(0xFFFAF8FF),
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.onSurface),
-          onPressed: () => context.pop(),
+        surfaceTintColor: Colors.transparent,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 12),
+          child: Center(
+            child: Material(
+              color: const Color(0xFFEAEDFF),
+              shape: const CircleBorder(),
+              child: InkWell(
+                customBorder: const CircleBorder(),
+                onTap: () => context.pop(),
+                child: const SizedBox(
+                  width: 38,
+                  height: 38,
+                  child: Icon(Icons.arrow_back, color: Color(0xFF131B2E), size: 18),
+                ),
+              ),
+            ),
+          ),
         ),
-        title: Text(
-          'Wellbeing',
-          style: AppTypography.headlineMedium.copyWith(fontWeight: FontWeight.w700),
+        title: Row(
+          children: [
+            Text(
+              'Wellbeing',
+              style: AppTypography.titleLarge.copyWith(fontWeight: FontWeight.w700, color: const Color(0xFF131B2E)),
+            ),
+            const SizedBox(width: 8),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+              decoration: BoxDecoration(
+                color: const Color(0xFFCCE5FF),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Text(
+                'SIGNAL · REFLECTION · SUPPORT',
+                style: TextStyle(
+                  fontSize: 9,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFF001D31),
+                  letterSpacing: 0.4,
+                ),
+              ),
+            ),
+          ],
         ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.health_and_safety_outlined, color: AppColors.error),
-            onPressed: () => context.push(AppRoutes.safety),
+          Padding(
+            padding: const EdgeInsets.only(right: 12),
+            child: Center(
+              child: Material(
+                color: const Color(0xFFEAEDFF),
+                shape: const CircleBorder(),
+                child: InkWell(
+                  customBorder: const CircleBorder(),
+                  onTap: _showCalendarHistoryModal,
+                  child: const SizedBox(
+                    width: 38,
+                    height: 38,
+                    child: Icon(Icons.calendar_today, color: Color(0xFF131B2E), size: 18),
+                  ),
+                ),
+              ),
+            ),
           ),
-          const SizedBox(width: 8),
         ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'SIGNAL · REFLECTION · SUPPORT',
-                style: AppTypography.labelSmall.copyWith(color: AppColors.primary, fontWeight: FontWeight.w700),
-              ),
-              const SizedBox(height: 4),
-              Text(
                 'Take a moment to check in with yourself.',
-                style: AppTypography.headlineLarge.copyWith(fontWeight: FontWeight.w700),
+                style: AppTypography.bodyMedium.copyWith(color: const Color(0xFF3D4947)),
               ),
               const SizedBox(height: 16),
               _buildHeroBreathingCard(context),
-              const SizedBox(height: 20),
+              const SizedBox(height: 18),
               _buildRecentWellbeingCard(),
-              const SizedBox(height: 20),
+              const SizedBox(height: 18),
               _buildReflectionCard(),
-              const SizedBox(height: 20),
+              const SizedBox(height: 18),
               _buildNoticingCard(context),
-              const SizedBox(height: 20),
+              const SizedBox(height: 18),
               _buildAdaptiveStepCard(context),
-              const SizedBox(height: 24),
+              const SizedBox(height: 18),
+              _buildEmotionalSupportCard(context),
+              const SizedBox(height: 18),
+              _buildCareTeamCard(context),
+              const SizedBox(height: 18),
+              _buildEducationCard(context),
+              const SizedBox(height: 18),
+              _buildSafetyCard(context),
+              const SizedBox(height: 28),
             ],
           ),
         ),
@@ -97,43 +238,133 @@ class _WellbeingScreenState extends State<WellbeingScreen> {
   }
 
   Widget _buildHeroBreathingCard(BuildContext context) {
-    return PulseCard(
-      backgroundColor: const Color(0xFFF0FDF9),
-      borderColor: const Color(0xFF99F6E4),
-      padding: const EdgeInsets.all(20),
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xFFF2F3FF),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFFE2E7FF), width: 1),
+      ),
+      padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              const Icon(Icons.spa, color: AppColors.primary, size: 22),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  'Calm breathing space',
-                  style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700, color: AppColors.primary),
-                ),
+          Container(
+            height: 130,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              gradient: const LinearGradient(
+                colors: [Color(0xFF00685F), Color(0xFF008378), Color(0xFF5BB8FE)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
-            ],
+            ),
+            child: Stack(
+              children: [
+                Positioned.fill(
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 20),
+                      child: Icon(
+                        Icons.spa,
+                        size: 90,
+                        color: Colors.white.withValues(alpha: 0.18),
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  bottom: 12,
+                  left: 12,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.9),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: const Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.spa, color: Color(0xFF00685F), size: 14),
+                        SizedBox(width: 4),
+                        Text(
+                          'Calm breathing space',
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xFF131B2E),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 14),
           Text(
             'How are you really doing?',
-            style: AppTypography.titleLarge.copyWith(fontWeight: FontWeight.w700),
+            style: AppTypography.headlineSmall.copyWith(
+              fontWeight: FontWeight.w700,
+              color: const Color(0xFF131B2E),
+            ),
           ),
           const SizedBox(height: 4),
           Text(
             'Your wellbeing can change from day to day. There’s no right answer here.',
-            style: AppTypography.bodySmall.copyWith(color: AppColors.onSurfaceVariant),
+            style: AppTypography.bodySmall.copyWith(color: const Color(0xFF3D4947)),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 14),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
-                child: PulseButton(
-                  text: 'Check in (~30 sec)',
-                  icon: Icons.arrow_forward,
-                  onPressed: () => context.push(AppRoutes.checkin),
+              Material(
+                color: const Color(0xFF00685F),
+                borderRadius: BorderRadius.circular(10),
+                child: InkWell(
+                  onTap: () => context.push(AppRoutes.checkin),
+                  borderRadius: BorderRadius.circular(10),
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'Check in',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        SizedBox(width: 6),
+                        Icon(Icons.arrow_forward, size: 16, color: Colors.white),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFEAEDFF),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: const Row(
+                  children: [
+                    Icon(Icons.timer_outlined, size: 14, color: Color(0xFF00685F)),
+                    SizedBox(width: 4),
+                    Text(
+                      'About 30 seconds',
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: Color(0xFF3D4947),
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -144,56 +375,108 @@ class _WellbeingScreenState extends State<WellbeingScreen> {
   }
 
   Widget _buildRecentWellbeingCard() {
-    return PulseCard(
-      padding: const EdgeInsets.all(18),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Your recent wellbeing',
-            style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            'Based on your recent self-reported check-ins. No clinical scores calculated.',
-            style: AppTypography.bodySmall.copyWith(color: AppColors.outline),
-          ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              _buildMetricItem('Mood', 'Okay', 'Gentle baseline', Icons.sentiment_satisfied_alt_outlined, AppColors.primary),
-              _buildMetricItem('Stress', 'Moderate', 'Evening indicator', Icons.waves, AppColors.secondary),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Row(
-            children: [
-              _buildMetricItem('Energy', 'Low', 'Resting phase', Icons.bolt_outlined, const Color(0xFFD97706)),
-              _buildMetricItem('Sleep', 'Needs attention', 'Interrupted rhythm', Icons.bedtime_outlined, AppColors.error),
-            ],
-          ),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Your recent wellbeing',
+          style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700, color: const Color(0xFF131B2E)),
+        ),
+        const SizedBox(height: 2),
+        Text(
+          'Based on your recent self-reported check-ins. No clinical scores calculated.',
+          style: AppTypography.bodySmall.copyWith(color: const Color(0xFF6D7A77)),
+        ),
+        const SizedBox(height: 12),
+        Row(
+          children: [
+            _buildMetricTile(
+              'Mood',
+              'Okay',
+              'Gentle baseline',
+              Icons.sentiment_satisfied,
+              const Color(0xFF00685F),
+              const Color(0xFFE6F5F3),
+            ),
+            const SizedBox(width: 10),
+            _buildMetricTile(
+              'Stress',
+              'Moderate',
+              'Evening indicator',
+              Icons.waves,
+              const Color(0xFF006398),
+              const Color(0xFFCCE5FF),
+            ),
+          ],
+        ),
+        const SizedBox(height: 10),
+        Row(
+          children: [
+            _buildMetricTile(
+              'Energy',
+              'Low',
+              'Resting phase',
+              Icons.battery_3_bar,
+              const Color(0xFFD97706),
+              const Color(0xFFFEF3C7),
+            ),
+            const SizedBox(width: 10),
+            _buildMetricTile(
+              'Sleep',
+              'Needs attention',
+              'Interrupted rhythm',
+              Icons.bedtime,
+              const Color(0xFF4648D4),
+              const Color(0xFFE1E0FF),
+            ),
+          ],
+        ),
+      ],
     );
   }
 
-  Widget _buildMetricItem(String label, String value, String sub, IconData icon, Color color) {
+  Widget _buildMetricTile(String label, String value, String sub, IconData icon, Color fg, Color bg) {
     return Expanded(
       child: Container(
-        margin: const EdgeInsets.all(4),
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          color: AppColors.surfaceContainerLow,
-          borderRadius: BorderRadius.circular(12),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: const Color(0xFFEAEDFF), width: 1),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(icon, size: 18, color: color),
-            const SizedBox(height: 6),
-            Text(label, style: AppTypography.labelSmall.copyWith(color: AppColors.outline)),
-            Text(value, style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700)),
-            Text(sub, style: AppTypography.labelSmall.copyWith(color: AppColors.outline, fontSize: 10)),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  label.toUpperCase(),
+                  style: const TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFF3D4947),
+                    letterSpacing: 0.5,
+                  ),
+                ),
+                Container(
+                  width: 28,
+                  height: 28,
+                  decoration: BoxDecoration(color: bg, shape: BoxShape.circle),
+                  child: Icon(icon, size: 16, color: fg),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Text(
+              value,
+              style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700, color: const Color(0xFF131B2E)),
+            ),
+            const SizedBox(height: 2),
+            Text(
+              sub,
+              style: AppTypography.bodySmall.copyWith(color: const Color(0xFF6D7A77), fontSize: 11),
+            ),
           ],
         ),
       ),
@@ -201,53 +484,106 @@ class _WellbeingScreenState extends State<WellbeingScreen> {
   }
 
   Widget _buildReflectionCard() {
-    return PulseCard(
-      padding: const EdgeInsets.all(18),
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFFEAEDFF), width: 1),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
-                child: Text(
-                  'Take a moment',
-                  style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700),
+              Row(
+                children: [
+                  const Icon(Icons.edit_note, color: Color(0xFF00685F), size: 20),
+                  const SizedBox(width: 6),
+                  Text(
+                    'Take a moment',
+                    style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700, color: const Color(0xFF131B2E)),
+                  ),
+                ],
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFEAEDFF),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Text(
+                  'Private',
+                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.w700, color: Color(0xFF3D4947)),
                 ),
               ),
-              const SizedBox(width: 8),
-              const PulseBadge(text: 'Private', variant: PulseBadgeVariant.neutral),
             ],
           ),
           const SizedBox(height: 4),
           Text(
             'Is there something on your mind today?',
-            style: AppTypography.bodySmall.copyWith(color: AppColors.outline),
+            style: AppTypography.bodySmall.copyWith(color: const Color(0xFF6D7A77)),
           ),
           const SizedBox(height: 12),
-          PulseTextField(
+          TextField(
             controller: _reflectionController,
             maxLines: 3,
-            hintText: 'Record a private reflection...',
+            decoration: InputDecoration(
+              filled: true,
+              fillColor: const Color(0xFFF2F3FF),
+              hintText: 'Write anything that feels helpful to get out...',
+              hintStyle: const TextStyle(fontSize: 13, color: Color(0xFF6D7A77)),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide.none,
+              ),
+              contentPadding: const EdgeInsets.all(12),
+            ),
+            style: const TextStyle(fontSize: 13, color: Color(0xFF131B2E)),
           ),
           const SizedBox(height: 10),
-          Row(
+          const Row(
             children: [
-              const Icon(Icons.lock_outline, size: 14, color: AppColors.outline),
-              const SizedBox(width: 4),
+              Icon(Icons.lock_outline, size: 14, color: Color(0xFF6D7A77)),
+              SizedBox(width: 6),
               Expanded(
                 child: Text(
                   'Only share what you\'re comfortable sharing. Reflections stay private and unshared by default.',
-                  style: AppTypography.labelSmall.copyWith(color: AppColors.outline),
+                  style: TextStyle(fontSize: 11, color: Color(0xFF6D7A77)),
                 ),
               ),
             ],
           ),
           const SizedBox(height: 14),
-          PulseButton(
-            text: _saved ? 'Reflection saved locally ✓' : 'Save reflection',
-            variant: _saved ? PulseButtonVariant.secondary : PulseButtonVariant.primary,
-            onPressed: _saveReflection,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              if (_saved)
+                const Row(
+                  children: [
+                    Icon(Icons.check_circle, size: 16, color: Color(0xFF00685F)),
+                    SizedBox(width: 4),
+                    Text(
+                      'Reflection saved locally',
+                      style: TextStyle(color: Color(0xFF00685F), fontSize: 12, fontWeight: FontWeight.w600),
+                    ),
+                  ],
+                )
+              else
+                const SizedBox.shrink(),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF00685F),
+                  foregroundColor: Colors.white,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                ),
+                onPressed: _saveReflection,
+                child: const Text('Save reflection', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 12)),
+              ),
+            ],
           ),
         ],
       ),
@@ -255,47 +591,76 @@ class _WellbeingScreenState extends State<WellbeingScreen> {
   }
 
   Widget _buildNoticingCard(BuildContext context) {
-    return PulseCard(
-      backgroundColor: const Color(0xFFF0FDF4),
-      borderColor: const Color(0xFFBBF7D0),
-      padding: const EdgeInsets.all(18),
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF2F3FF),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFFE2E7FF), width: 1),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              const Icon(Icons.insights, color: Color(0xFF16A34A), size: 20),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  'What you\'ve been noticing',
-                  style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700, color: const Color(0xFF166534)),
+              Container(
+                width: 26,
+                height: 26,
+                decoration: const BoxDecoration(
+                  color: Color(0xFFCCE5FF),
+                  shape: BoxShape.circle,
                 ),
+                child: const Icon(Icons.insights, size: 16, color: Color(0xFF006398)),
+              ),
+              const SizedBox(width: 8),
+              Text(
+                'What you\'ve been noticing',
+                style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700, color: const Color(0xFF131B2E)),
               ),
             ],
           ),
-          const SizedBox(height: 8),
-          Text(
-            'Your recent check-ins show higher stress on days when your sleep was lower.',
-            style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            'Patterns can take time to become clear. Observing connections helps you explore rhythms without self-judgment.',
-            style: AppTypography.bodySmall.copyWith(color: AppColors.onSurfaceVariant),
-          ),
           const SizedBox(height: 12),
-          InkWell(
-            onTap: () => context.push(AppRoutes.progress),
-            child: Row(
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'View my progress',
-                  style: AppTypography.labelLarge.copyWith(color: AppColors.primary, fontWeight: FontWeight.w700),
+                  'Your recent check-ins show higher stress on days when your sleep was lower.',
+                  style: AppTypography.bodyMedium.copyWith(fontWeight: FontWeight.w700, color: const Color(0xFF131B2E)),
                 ),
-                const SizedBox(width: 4),
-                const Icon(Icons.arrow_forward, size: 16, color: AppColors.primary),
+                const SizedBox(height: 4),
+                Text(
+                  'Patterns can take time to become clear. Observing connections helps you explore rhythms without self-judgment.',
+                  style: AppTypography.bodySmall.copyWith(color: const Color(0xFF3D4947)),
+                ),
               ],
+            ),
+          ),
+          const SizedBox(height: 10),
+          Align(
+            alignment: Alignment.centerRight,
+            child: InkWell(
+              onTap: () => context.push(AppRoutes.progress),
+              child: const Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'View my progress',
+                    style: TextStyle(
+                      color: Color(0xFF006398),
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  SizedBox(width: 4),
+                  Icon(Icons.arrow_forward, size: 14, color: Color(0xFF006398)),
+                ],
+              ),
             ),
           ),
         ],
@@ -304,54 +669,419 @@ class _WellbeingScreenState extends State<WellbeingScreen> {
   }
 
   Widget _buildAdaptiveStepCard(BuildContext context) {
-    return PulseCard(
-      padding: const EdgeInsets.all(18),
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFFEAEDFF), width: 1),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'ADAPTIVE MICRO-STEP',
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFF00685F),
+                  letterSpacing: 0.6,
+                ),
+              ),
+              Icon(Icons.self_improvement, size: 18, color: Color(0xFF00685F)),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Something small to try',
+            style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700, color: const Color(0xFF131B2E)),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            'Take 10 quiet minutes away from your screen today.',
+            style: AppTypography.bodyMedium.copyWith(fontWeight: FontWeight.w700, color: const Color(0xFF131B2E)),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            'Choose something that feels realistic, not perfect. No streak pressure.',
+            style: AppTypography.bodySmall.copyWith(color: const Color(0xFF6D7A77)),
+          ),
+          const SizedBox(height: 14),
+          Row(
+            children: [
+              Expanded(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: _microStepScheduled ? const Color(0xFF008378) : const Color(0xFF00685F),
+                    foregroundColor: Colors.white,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
+                  ),
+                  onPressed: () {
+                    setState(() => _microStepScheduled = true);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Scheduled 10-minute quiet pause today.')),
+                    );
+                  },
+                  child: Text(
+                    _microStepScheduled ? 'Scheduled ✓' : 'Try this',
+                    style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    backgroundColor: const Color(0xFFEAEDFF),
+                    foregroundColor: const Color(0xFF131B2E),
+                    side: BorderSide.none,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
+                  ),
+                  onPressed: () => context.push(AppRoutes.adaptiveGoal),
+                  child: const Text(
+                    'Choose another',
+                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 13),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEmotionalSupportCard(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFFEAEDFF), width: 1),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Icon(Icons.forum_outlined, size: 20, color: Color(0xFF006398)),
+              const SizedBox(width: 6),
+              Text(
+                'Need to talk?',
+                style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700, color: const Color(0xFF131B2E)),
+              ),
+            ],
+          ),
+          const SizedBox(height: 4),
+          Text(
+            'If something has been weighing on you, you don\'t have to figure it out alone.',
+            style: AppTypography.bodySmall.copyWith(color: const Color(0xFF3D4947)),
+          ),
+          const SizedBox(height: 12),
+          Material(
+            color: const Color(0xFFF2F3FF),
+            borderRadius: BorderRadius.circular(12),
+            child: InkWell(
+              onTap: () => context.push(AppRoutes.pulseAi),
+              borderRadius: BorderRadius.circular(12),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 36,
+                      height: 36,
+                      decoration: const BoxDecoration(
+                        color: Color(0xFFCCE5FF),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(Icons.psychology_outlined, size: 20, color: Color(0xFF006398)),
+                    ),
+                    const SizedBox(width: 10),
+                    const Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Talk it through with Pulse AI',
+                            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 13, color: Color(0xFF131B2E)),
+                          ),
+                          Text(
+                            'Supportive reflection, not therapy',
+                            style: TextStyle(fontSize: 11, color: Color(0xFF3D4947)),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Icon(Icons.arrow_forward, size: 16, color: Color(0xFF6D7A77)),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 8),
+          Material(
+            color: const Color(0xFFF2F3FF),
+            borderRadius: BorderRadius.circular(12),
+            child: InkWell(
+              onTap: () => context.push(AppRoutes.safety),
+              borderRadius: BorderRadius.circular(12),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 36,
+                      height: 36,
+                      decoration: const BoxDecoration(
+                        color: Color(0xFF89F5E7),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(Icons.group_outlined, size: 20, color: Color(0xFF00685F)),
+                    ),
+                    const SizedBox(width: 10),
+                    const Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Find human support',
+                            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 13, color: Color(0xFF131B2E)),
+                          ),
+                          Text(
+                            'Care navigators and trusted listeners',
+                            style: TextStyle(fontSize: 11, color: Color(0xFF3D4947)),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Icon(Icons.arrow_forward, size: 16, color: Color(0xFF6D7A77)),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCareTeamCard(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF2F3FF),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFFE2E7FF), width: 1),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
-                child: Text(
-                  'Adaptive Micro-Step',
-                  style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700),
+              Row(
+                children: [
+                  Container(
+                    width: 26,
+                    height: 26,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF00685F).withValues(alpha: 0.1),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(Icons.medical_services_outlined, size: 16, color: Color(0xFF00685F)),
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Your care team',
+                    style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700, color: const Color(0xFF131B2E)),
+                  ),
+                ],
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFEAEDFF),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Text(
+                  'Optional',
+                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.w700, color: Color(0xFF3D4947)),
                 ),
               ),
-              const SizedBox(width: 8),
-              const PulseBadge(text: '10 min', variant: PulseBadgeVariant.primary),
             ],
           ),
           const SizedBox(height: 8),
           Text(
-            'Take 10 quiet minutes away from your screen today.',
-            style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700),
+            'Your wellbeing is part of your overall health. You can prepare a summary for your next conversation with your care professional.',
+            style: AppTypography.bodySmall.copyWith(color: const Color(0xFF131B2E)),
+          ),
+          const SizedBox(height: 12),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Nothing is shared automatically.',
+                style: TextStyle(fontSize: 11, color: Color(0xFF3D4947)),
+              ),
+              InkWell(
+                onTap: () => context.push(AppRoutes.preConsult),
+                child: const Row(
+                  children: [
+                    Text(
+                      'Prepare for care',
+                      style: TextStyle(color: Color(0xFF00685F), fontSize: 12, fontWeight: FontWeight.w700),
+                    ),
+                    SizedBox(width: 4),
+                    Icon(Icons.arrow_forward, size: 14, color: Color(0xFF00685F)),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEducationCard(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFFEAEDFF), width: 1),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'MENTAL WELLBEING · 4 MIN READ',
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFF3D4947),
+                  letterSpacing: 0.5,
+                ),
+              ),
+              Icon(Icons.menu_book_outlined, size: 18, color: Color(0xFF6D7A77)),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Understanding stress',
+            style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700, color: const Color(0xFF131B2E)),
           ),
           const SizedBox(height: 4),
           Text(
-            'Choose something that feels realistic, not perfect. No streak pressure.',
-            style: AppTypography.bodySmall.copyWith(color: AppColors.onSurfaceVariant),
+            'How your nervous system responds to micro-pressures throughout the week, and simple ways to reset.',
+            style: AppTypography.bodySmall.copyWith(color: const Color(0xFF3D4947)),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 10),
+          Align(
+            alignment: Alignment.centerRight,
+            child: InkWell(
+              onTap: () => context.push(AppRoutes.awareness),
+              child: const Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Explore awareness',
+                    style: TextStyle(color: Color(0xFF00685F), fontSize: 12, fontWeight: FontWeight.w700),
+                  ),
+                  SizedBox(width: 4),
+                  Icon(Icons.arrow_forward, size: 14, color: Color(0xFF00685F)),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSafetyCard(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: const Color(0xFFFFDAD6).withValues(alpha: 0.4),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFFFFDAD6), width: 1),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                child: PulseButton(
-                  text: 'Try this',
-                  onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Scheduled 10-minute quiet pause.')),
-                    );
-                  },
+              Container(
+                width: 32,
+                height: 32,
+                decoration: const BoxDecoration(
+                  color: Color(0xFFFFDAD6),
+                  shape: BoxShape.circle,
                 ),
+                child: const Icon(Icons.emergency_outlined, size: 18, color: Color(0xFF93000A)),
               ),
               const SizedBox(width: 10),
               Expanded(
-                child: PulseButton(
-                  text: 'Choose another',
-                  variant: PulseButtonVariant.outlined,
-                  onPressed: () => context.push(AppRoutes.adaptiveGoal),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Sometimes you need more than an app',
+                      style: AppTypography.titleMedium.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: const Color(0xFF131B2E),
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'If you\'re struggling, feeling overwhelmed, or feel unsafe, reaching out to a trusted person or qualified professional can be an important next step.',
+                      style: AppTypography.bodySmall.copyWith(color: const Color(0xFF3D4947)),
+                    ),
+                  ],
                 ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 14),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'CRISIS LIFELINE',
+                    style: TextStyle(fontSize: 9, fontWeight: FontWeight.w700, color: Color(0xFF3D4947), letterSpacing: 0.4),
+                  ),
+                  Text(
+                    'Call or text 988',
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Color(0xFF131B2E)),
+                  ),
+                ],
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: const Color(0xFF131B2E),
+                  elevation: 1,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                ),
+                onPressed: () => context.push(AppRoutes.safety),
+                child: const Text('Get 24/7 human support', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 12)),
               ),
             ],
           ),

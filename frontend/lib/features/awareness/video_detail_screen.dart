@@ -119,15 +119,19 @@ class _VideoDetailScreenState extends ConsumerState<VideoDetailScreen> {
                       text: item.isSaved ? 'Saved for later ✓' : 'Save for later',
                       variant: PulseButtonVariant.outlined,
                       icon: item.isSaved ? Icons.bookmark : Icons.bookmark_border,
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+                      fontSize: 12.5,
                       onPressed: () => ref.read(awarenessProvider.notifier).toggleSave(item.id),
                     ),
                   ),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: 8),
                   Expanded(
                     child: PulseButton(
                       text: _sharedWithCare ? 'Shared ✓' : 'Share with care',
                       variant: _sharedWithCare ? PulseButtonVariant.secondary : PulseButtonVariant.primary,
                       icon: Icons.verified_user_outlined,
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+                      fontSize: 12.5,
                       onPressed: () {
                         setState(() => _sharedWithCare = !_sharedWithCare);
                         ScaffoldMessenger.of(context).showSnackBar(

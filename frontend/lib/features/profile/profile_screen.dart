@@ -223,6 +223,13 @@ class ProfileScreen extends ConsumerWidget {
           ),
           const SizedBox(height: 8),
           _buildSnapshotItem(
+            Icons.spa_outlined,
+            'Wellbeing space',
+            'Daily check-ins & reflections',
+            onTap: () => context.push(AppRoutes.wellbeing),
+          ),
+          const SizedBox(height: 8),
+          _buildSnapshotItem(
             Icons.bookmark_outline,
             'Saved awareness',
             '4 resources saved',
@@ -321,6 +328,14 @@ class ProfileScreen extends ConsumerWidget {
           title: 'Family Circle',
           subtitle: 'Manage trusted people and individual permissions',
           onTap: () => context.push(AppRoutes.family),
+        ),
+        const SizedBox(height: 8),
+        _buildNavTile(
+          context,
+          icon: Icons.spa_outlined,
+          title: 'Wellbeing & Daily Reflection',
+          subtitle: 'Signal tracking, calm breathing space, and personal rhythms',
+          onTap: () => context.push(AppRoutes.wellbeing),
         ),
       ],
     );
