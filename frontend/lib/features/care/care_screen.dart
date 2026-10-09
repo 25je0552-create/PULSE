@@ -206,10 +206,13 @@ class CareScreen extends ConsumerWidget {
           InkWell(
             onTap: () => context.push(AppRoutes.doctorProfile),
             child: Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  'View care team details',
-                  style: AppTypography.labelLarge.copyWith(color: AppColors.primary, fontWeight: FontWeight.w700),
+                Flexible(
+                  child: Text(
+                    'View care team details',
+                    style: AppTypography.labelLarge.copyWith(color: AppColors.primary, fontWeight: FontWeight.w700),
+                  ),
                 ),
                 const SizedBox(width: 4),
                 const Icon(Icons.arrow_forward, size: 16, color: AppColors.primary),
@@ -459,54 +462,66 @@ class CareScreen extends ConsumerWidget {
               borderRadius: BorderRadius.circular(12),
             ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Column(
-                  children: [
-                    Text(
-                      '6',
-                      style: AppTypography.titleMedium.copyWith(
-                        fontWeight: FontWeight.w800,
-                        color: AppColors.primary,
+                Expanded(
+                  child: Column(
+                    children: [
+                      Text(
+                        '6',
+                        style: AppTypography.titleMedium.copyWith(
+                          fontWeight: FontWeight.w800,
+                          color: AppColors.primary,
+                        ),
                       ),
-                    ),
-                    Text(
-                      'Total records',
-                      style: AppTypography.labelSmall.copyWith(fontSize: 10, color: AppColors.outline),
-                    ),
-                  ],
+                      Text(
+                        'Total records',
+                        style: AppTypography.labelSmall.copyWith(fontSize: 10, color: AppColors.outline),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
                 ),
                 Container(width: 1, height: 28, color: AppColors.outlineVariant),
-                Column(
-                  children: [
-                    Text(
-                      '2',
-                      style: AppTypography.titleMedium.copyWith(
-                        fontWeight: FontWeight.w800,
-                        color: AppColors.secondary,
+                Expanded(
+                  child: Column(
+                    children: [
+                      Text(
+                        '2',
+                        style: AppTypography.titleMedium.copyWith(
+                          fontWeight: FontWeight.w800,
+                          color: AppColors.secondary,
+                        ),
                       ),
-                    ),
-                    Text(
-                      'Care notes',
-                      style: AppTypography.labelSmall.copyWith(fontSize: 10, color: AppColors.outline),
-                    ),
-                  ],
+                      Text(
+                        'Care notes',
+                        style: AppTypography.labelSmall.copyWith(fontSize: 10, color: AppColors.outline),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
                 ),
                 Container(width: 1, height: 28, color: AppColors.outlineVariant),
-                Column(
-                  children: [
-                    Text(
-                      'Encrypted',
-                      style: AppTypography.titleMedium.copyWith(
-                        fontWeight: FontWeight.w800,
-                        color: AppColors.onSurface,
+                Expanded(
+                  child: Column(
+                    children: [
+                      Text(
+                        'Encrypted',
+                        style: AppTypography.titleMedium.copyWith(
+                          fontWeight: FontWeight.w800,
+                          color: AppColors.onSurface,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                    ),
-                    Text(
-                      'Private archive',
-                      style: AppTypography.labelSmall.copyWith(fontSize: 10, color: AppColors.outline),
-                    ),
-                  ],
+                      Text(
+                        'Private archive',
+                        style: AppTypography.labelSmall.copyWith(fontSize: 10, color: AppColors.outline),
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -626,10 +641,13 @@ class CareScreen extends ConsumerWidget {
           const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              PulseBadge(
-                text: 'Signal · Reflection · Support',
-                variant: PulseBadgeVariant.primary,
+              Flexible(
+                child: PulseBadge(
+                  text: 'Signal · Reflection · Support',
+                  variant: PulseBadgeVariant.primary,
+                ),
               ),
+              SizedBox(width: 8),
               Icon(Icons.spa, color: Color(0xFF00685F), size: 20),
             ],
           ),

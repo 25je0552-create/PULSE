@@ -106,20 +106,23 @@ class _FamilyCircleScreenState extends ConsumerState<FamilyCircleScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Who would you like to invite?',
-                          style: AppTypography.headlineSmall.copyWith(fontWeight: FontWeight.w700),
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          'Enter their details to send an invitation.',
-                          style: AppTypography.bodySmall.copyWith(color: AppColors.onSurfaceVariant),
-                        ),
-                      ],
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Who would you like to invite?',
+                            style: AppTypography.headlineSmall.copyWith(fontWeight: FontWeight.w700),
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            'Enter their details to send an invitation.',
+                            style: AppTypography.bodySmall.copyWith(color: AppColors.onSurfaceVariant),
+                          ),
+                        ],
+                      ),
                     ),
+                    const SizedBox(width: 10),
                     InkWell(
                       onTap: () => Navigator.pop(ctx),
                       borderRadius: BorderRadius.circular(16),
@@ -241,34 +244,37 @@ class _FamilyCircleScreenState extends ConsumerState<FamilyCircleScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            const Icon(Icons.tune, size: 16, color: AppColors.primary),
-                            const SizedBox(width: 4),
-                            Text(
-                              'STEP 2 OF 2',
-                              style: AppTypography.labelSmall.copyWith(
-                                color: AppColors.primary,
-                                fontWeight: FontWeight.w700,
-                                letterSpacing: 0.8,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              const Icon(Icons.tune, size: 16, color: AppColors.primary),
+                              const SizedBox(width: 4),
+                              Text(
+                                'STEP 2 OF 2',
+                                style: AppTypography.labelSmall.copyWith(
+                                  color: AppColors.primary,
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: 0.8,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          'Choose their access',
-                          style: AppTypography.headlineSmall.copyWith(fontWeight: FontWeight.w700),
-                        ),
-                        Text(
-                          'You decide exactly what this person can see.',
-                          style: AppTypography.bodySmall.copyWith(color: AppColors.onSurfaceVariant),
-                        ),
-                      ],
+                            ],
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            'Choose their access',
+                            style: AppTypography.headlineSmall.copyWith(fontWeight: FontWeight.w700),
+                          ),
+                          Text(
+                            'You decide exactly what this person can see.',
+                            style: AppTypography.bodySmall.copyWith(color: AppColors.onSurfaceVariant),
+                          ),
+                        ],
+                      ),
                     ),
+                    const SizedBox(width: 10),
                     InkWell(
                       onTap: () => Navigator.pop(ctx),
                       borderRadius: BorderRadius.circular(16),
@@ -571,61 +577,69 @@ class _FamilyCircleScreenState extends ConsumerState<FamilyCircleScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: [
-                      Container(
-                        width: 44,
-                        height: 44,
-                        decoration: const BoxDecoration(
-                          color: Color(0xFFCCFBF1),
-                          shape: BoxShape.circle,
-                        ),
-                        child: Center(
-                          child: Text(
-                            member.name.isNotEmpty ? member.name[0] : 'P',
-                            style: AppTypography.titleLarge.copyWith(
-                              color: AppColors.primary,
-                              fontWeight: FontWeight.w800,
+                  Expanded(
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 44,
+                          height: 44,
+                          decoration: const BoxDecoration(
+                            color: Color(0xFFCCFBF1),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Center(
+                            child: Text(
+                              member.name.isNotEmpty ? member.name[0] : 'P',
+                              style: AppTypography.titleLarge.copyWith(
+                                color: AppColors.primary,
+                                fontWeight: FontWeight.w800,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      const SizedBox(width: 12),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                member.name,
-                                style: AppTypography.headlineSmall.copyWith(fontWeight: FontWeight.w700),
-                              ),
-                              const SizedBox(width: 6),
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFE6F4F1),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Text(
-                                  'Connected',
-                                  style: AppTypography.labelSmall.copyWith(
-                                    color: AppColors.primary,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 10,
+                              Row(
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      member.name,
+                                      style: AppTypography.headlineSmall.copyWith(fontWeight: FontWeight.w700),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                                   ),
-                                ),
+                                  const SizedBox(width: 6),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFFE6F4F1),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Text(
+                                      'Connected',
+                                      style: AppTypography.labelSmall.copyWith(
+                                        color: AppColors.primary,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 10,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Text(
+                                'Family · ${member.relation}',
+                                style: AppTypography.bodySmall.copyWith(color: AppColors.outline),
                               ),
                             ],
                           ),
-                          Text(
-                            'Family · ${member.relation}',
-                            style: AppTypography.bodySmall.copyWith(color: AppColors.outline),
-                          ),
-                        ],
-                      ),
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
+                  const SizedBox(width: 10),
                   InkWell(
                     onTap: () => Navigator.pop(ctx),
                     borderRadius: BorderRadius.circular(16),
@@ -1069,11 +1083,13 @@ class _FamilyCircleScreenState extends ConsumerState<FamilyCircleScreen> {
             children: [
               const Icon(Icons.lock_clock, size: 16, color: AppColors.primary),
               const SizedBox(width: 6),
-              Text(
-                'Zero automatic sharing by default',
-                style: AppTypography.labelSmall.copyWith(
-                  color: AppColors.primary,
-                  fontWeight: FontWeight.w600,
+              Expanded(
+                child: Text(
+                  'Zero automatic sharing by default',
+                  style: AppTypography.labelSmall.copyWith(
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ],
@@ -1092,30 +1108,36 @@ class _FamilyCircleScreenState extends ConsumerState<FamilyCircleScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              children: [
-                Text(
-                  'Your trusted people',
-                  style: AppTypography.headlineSmall.copyWith(fontWeight: FontWeight.w700),
-                ),
-                const SizedBox(width: 8),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: count > 0 ? const Color(0xFF89F5E7) : const Color(0xFFEAEDFF),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Text(
-                    '$count connected',
-                    style: AppTypography.labelSmall.copyWith(
-                      color: count > 0 ? const Color(0xFF00201D) : AppColors.outline,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 10,
+            Expanded(
+              child: Row(
+                children: [
+                  Flexible(
+                    child: Text(
+                      'Your trusted people',
+                      style: AppTypography.headlineSmall.copyWith(fontWeight: FontWeight.w700),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                ),
-              ],
+                  const SizedBox(width: 8),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: count > 0 ? const Color(0xFF89F5E7) : const Color(0xFFEAEDFF),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      '$count connected',
+                      style: AppTypography.labelSmall.copyWith(
+                        color: count > 0 ? const Color(0xFF00201D) : AppColors.outline,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 10,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
+            const SizedBox(width: 8),
             Text(
               'Active access',
               style: AppTypography.labelSmall.copyWith(color: AppColors.onSurfaceVariant),
@@ -1248,9 +1270,12 @@ class _FamilyCircleScreenState extends ConsumerState<FamilyCircleScreen> {
                   children: [
                     Row(
                       children: [
-                        Text(
-                          member.name,
-                          style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700),
+                        Flexible(
+                          child: Text(
+                            member.name,
+                            style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700),
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                         const SizedBox(width: 6),
                         Container(
@@ -1360,9 +1385,11 @@ class _FamilyCircleScreenState extends ConsumerState<FamilyCircleScreen> {
                 child: const Icon(Icons.admin_panel_settings, color: AppColors.primary, size: 18),
               ),
               const SizedBox(width: 10),
-              Text(
-                'You’re always in control',
-                style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700),
+              Expanded(
+                child: Text(
+                  'You’re always in control',
+                  style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700),
+                ),
               ),
             ],
           ),
@@ -1392,12 +1419,15 @@ class _FamilyCircleScreenState extends ConsumerState<FamilyCircleScreen> {
                     children: [
                       Icon(Icons.security, size: 16, color: AppColors.primary),
                       SizedBox(width: 8),
-                      Text(
-                        'Manage privacy settings',
-                        style: TextStyle(
-                          color: Color(0xFF131B2E),
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
+                      Flexible(
+                        child: Text(
+                          'Manage privacy settings',
+                          style: TextStyle(
+                            color: Color(0xFF131B2E),
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
@@ -1425,9 +1455,11 @@ class _FamilyCircleScreenState extends ConsumerState<FamilyCircleScreen> {
             children: [
               const Icon(Icons.handshake, size: 20, color: AppColors.secondary),
               const SizedBox(width: 8),
-              Text(
-                'Need more support?',
-                style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700),
+              Expanded(
+                child: Text(
+                  'Need more support?',
+                  style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700),
+                ),
               ),
             ],
           ),
@@ -1452,18 +1484,21 @@ class _FamilyCircleScreenState extends ConsumerState<FamilyCircleScreen> {
                     onTap: () => context.push(AppRoutes.care),
                     borderRadius: BorderRadius.circular(12),
                     child: const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(Icons.medical_services_outlined, size: 16, color: Color(0xFF006398)),
                           SizedBox(width: 6),
-                          Text(
-                            'Care team',
-                            style: TextStyle(
-                              color: Color(0xFF131B2E),
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
+                          Flexible(
+                            child: Text(
+                              'Care team',
+                              style: TextStyle(
+                                color: Color(0xFF131B2E),
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                         ],
@@ -1483,18 +1518,21 @@ class _FamilyCircleScreenState extends ConsumerState<FamilyCircleScreen> {
                     onTap: () => context.push(AppRoutes.safety),
                     borderRadius: BorderRadius.circular(12),
                     child: const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(Icons.support_agent, size: 16, color: Color(0xFF4648D4)),
                           SizedBox(width: 6),
-                          Text(
-                            'Human support',
-                            style: TextStyle(
-                              color: Color(0xFF131B2E),
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
+                          Flexible(
+                            child: Text(
+                              'Human support',
+                              style: TextStyle(
+                                color: Color(0xFF131B2E),
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                         ],

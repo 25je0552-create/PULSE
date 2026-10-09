@@ -49,11 +49,14 @@ class PulseChip extends StatelessWidget {
                 Icon(icon, size: 16, color: textColor),
                 const SizedBox(width: 6),
               ],
-              Text(
-                label,
-                style: AppTypography.labelMedium.copyWith(
-                  color: textColor,
-                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+              Flexible(
+                child: Text(
+                  label,
+                  style: AppTypography.labelMedium.copyWith(
+                    color: textColor,
+                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],

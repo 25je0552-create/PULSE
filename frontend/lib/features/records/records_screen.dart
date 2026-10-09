@@ -122,13 +122,16 @@ class _RecordsScreenState extends ConsumerState<RecordsScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'Primary Care Consultation',
-                        style: AppTypography.labelSmall.copyWith(
-                          color: AppColors.primary,
-                          fontWeight: FontWeight.w700,
+                      Expanded(
+                        child: Text(
+                          'Primary Care Consultation',
+                          style: AppTypography.labelSmall.copyWith(
+                            color: AppColors.primary,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ),
+                      const SizedBox(width: 8),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                         decoration: BoxDecoration(
@@ -367,9 +370,11 @@ class _RecordsScreenState extends ConsumerState<RecordsScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'Sharing preferences',
-                  style: AppTypography.headlineSmall.copyWith(fontWeight: FontWeight.w700),
+                Expanded(
+                  child: Text(
+                    'Sharing preferences',
+                    style: AppTypography.headlineSmall.copyWith(fontWeight: FontWeight.w700),
+                  ),
                 ),
                 IconButton(
                   icon: const Icon(Icons.close, size: 18),
@@ -392,7 +397,8 @@ class _RecordsScreenState extends ConsumerState<RecordsScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Auto-sync with hospital', style: AppTypography.bodyMedium),
+                  Expanded(child: Text('Auto-sync with hospital', style: AppTypography.bodyMedium)),
+                  const SizedBox(width: 8),
                   Text(
                     'Disabled (Standard)',
                     style: AppTypography.labelSmall.copyWith(
@@ -413,7 +419,8 @@ class _RecordsScreenState extends ConsumerState<RecordsScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Care team access', style: AppTypography.bodyMedium),
+                  Expanded(child: Text('Care team access', style: AppTypography.bodyMedium)),
+                  const SizedBox(width: 8),
                   Text(
                     'By request only',
                     style: AppTypography.labelSmall.copyWith(
@@ -629,11 +636,14 @@ class _RecordsScreenState extends ConsumerState<RecordsScreen> {
   Widget _buildTopContextSection() {
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Wrap(
+          alignment: WrapAlignment.spaceBetween,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          spacing: 8,
+          runSpacing: 6,
           children: [
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               decoration: BoxDecoration(
                 color: const Color(0xFF89F5E7),
                 borderRadius: BorderRadius.circular(20),
@@ -641,21 +651,25 @@ class _RecordsScreenState extends ConsumerState<RecordsScreen> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.shield, size: 15, color: Color(0xFF00201D)),
+                  const Icon(Icons.shield, size: 14, color: Color(0xFF00201D)),
                   const SizedBox(width: 6),
-                  Text(
-                    'STAGE 05 · SECURE PERSONAL ARCHIVE',
-                    style: AppTypography.labelSmall.copyWith(
-                      color: const Color(0xFF00201D),
-                      fontWeight: FontWeight.w700,
-                      fontSize: 10,
-                      letterSpacing: 0.8,
+                  Flexible(
+                    child: Text(
+                      'STAGE 05 · SECURE PERSONAL ARCHIVE',
+                      style: AppTypography.labelSmall.copyWith(
+                        color: const Color(0xFF00201D),
+                        fontWeight: FontWeight.w700,
+                        fontSize: 9.5,
+                        letterSpacing: 0.5,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ],
               ),
             ),
             Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
                   width: 8,
@@ -719,25 +733,29 @@ class _RecordsScreenState extends ConsumerState<RecordsScreen> {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'PERSONAL VAULT',
-                    style: AppTypography.labelSmall.copyWith(
-                      color: AppColors.primary,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: 0.8,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'PERSONAL VAULT',
+                      style: AppTypography.labelSmall.copyWith(
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: 0.8,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    'Your health information',
-                    style: AppTypography.headlineSmall.copyWith(fontWeight: FontWeight.w700),
-                  ),
-                ],
+                    const SizedBox(height: 2),
+                    Text(
+                      'Your health information',
+                      style: AppTypography.headlineSmall.copyWith(fontWeight: FontWeight.w700),
+                    ),
+                  ],
+                ),
               ),
+              const SizedBox(width: 8),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
@@ -931,10 +949,13 @@ class _RecordsScreenState extends ConsumerState<RecordsScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              'Browse by category',
-              style: AppTypography.headlineSmall.copyWith(fontWeight: FontWeight.w700),
+            Expanded(
+              child: Text(
+                'Browse by category',
+                style: AppTypography.headlineSmall.copyWith(fontWeight: FontWeight.w700),
+              ),
             ),
+            const SizedBox(width: 8),
             Text(
               '5 folders',
               style: AppTypography.labelSmall.copyWith(color: AppColors.onSurfaceVariant),
@@ -1038,23 +1059,29 @@ class _RecordsScreenState extends ConsumerState<RecordsScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              children: [
-                Text(
-                  'Recent records',
-                  style: AppTypography.headlineSmall.copyWith(fontWeight: FontWeight.w700),
-                ),
-                const SizedBox(width: 6),
-                Container(
-                  width: 6,
-                  height: 6,
-                  decoration: const BoxDecoration(
-                    color: Color(0xFF6BD8CB),
-                    shape: BoxShape.circle,
+            Expanded(
+              child: Row(
+                children: [
+                  Flexible(
+                    child: Text(
+                      'Recent records',
+                      style: AppTypography.headlineSmall.copyWith(fontWeight: FontWeight.w700),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                ),
-              ],
+                  const SizedBox(width: 6),
+                  Container(
+                    width: 6,
+                    height: 6,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFF6BD8CB),
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                ],
+              ),
             ),
+            const SizedBox(width: 8),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
               decoration: BoxDecoration(
@@ -1198,20 +1225,28 @@ class _RecordsScreenState extends ConsumerState<RecordsScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: [
-                      const Icon(Icons.event, size: 15, color: AppColors.outline),
-                      const SizedBox(width: 4),
-                      Text(
-                        rec.date,
-                        style: AppTypography.bodySmall.copyWith(
-                          color: AppColors.outline,
-                          fontSize: 12,
+                  Expanded(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(Icons.event, size: 15, color: AppColors.outline),
+                        const SizedBox(width: 4),
+                        Flexible(
+                          child: Text(
+                            rec.date,
+                            style: AppTypography.bodySmall.copyWith(
+                              color: AppColors.outline,
+                              fontSize: 12,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
+                  const SizedBox(width: 8),
                   Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
                         rec.actionLabel,
@@ -1428,11 +1463,13 @@ class _RecordsScreenState extends ConsumerState<RecordsScreen> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      'Manage sharing preferences',
-                      style: AppTypography.labelSmall.copyWith(
-                        color: AppColors.primary,
-                        fontWeight: FontWeight.w700,
+                    Flexible(
+                      child: Text(
+                        'Manage sharing preferences',
+                        style: AppTypography.labelSmall.copyWith(
+                          color: AppColors.primary,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 4),

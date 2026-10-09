@@ -61,16 +61,15 @@ class ProgressScreen extends ConsumerWidget {
                 style: AppTypography.titleMedium.copyWith(color: AppColors.onSurfaceVariant),
               ),
               const SizedBox(height: 16),
-              Row(
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
                 children: [7, 30, 90].map((days) {
                   final isSel = range == days;
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: PulseChip(
-                      label: '$days days',
-                      isSelected: isSel,
-                      onTap: () => ref.read(progressProvider.notifier).fetchProgress(days),
-                    ),
+                  return PulseChip(
+                    label: '$days days',
+                    isSelected: isSel,
+                    onTap: () => ref.read(progressProvider.notifier).fetchProgress(days),
                   );
                 }).toList(),
               ),
@@ -150,27 +149,31 @@ class ProgressScreen extends ConsumerWidget {
   }
 
   Widget _buildTrendRow(String title, String status, IconData icon, Color color) {
-    return Row(
-      children: [
-        Icon(icon, size: 20, color: color),
-        const SizedBox(width: 12),
-        Text(
-          title,
-          style: AppTypography.labelLarge.copyWith(fontWeight: FontWeight.w600),
-        ),
-        const Spacer(),
-        Flexible(
-          child: Text(
-            status,
-            textAlign: TextAlign.end,
-            style: AppTypography.bodySmall.copyWith(
-              fontWeight: FontWeight.w600,
-              color: AppColors.onSurface,
-            ),
-            overflow: TextOverflow.ellipsis,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Icon(icon, size: 20, color: color),
+          const SizedBox(width: 10),
+          Text(
+            title,
+            style: AppTypography.labelLarge.copyWith(fontWeight: FontWeight.w700),
           ),
-        ),
-      ],
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              status,
+              textAlign: TextAlign.end,
+              style: AppTypography.bodySmall.copyWith(
+                fontWeight: FontWeight.w600,
+                color: AppColors.onSurface,
+              ),
+              softWrap: true,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -259,6 +262,7 @@ class ProgressScreen extends ConsumerWidget {
 
   Widget _buildLegend(String label, Color color) {
     return Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
         Container(width: 10, height: 10, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
         const SizedBox(width: 4),

@@ -117,9 +117,11 @@ class HomeScreen extends ConsumerWidget {
                 child: const Icon(Icons.spa, color: AppColors.primary, size: 20),
               ),
               const SizedBox(width: 10),
-              const PulseBadge(
-                text: '30-second daily check-in',
-                variant: PulseBadgeVariant.primary,
+              const Flexible(
+                child: PulseBadge(
+                  text: '30-second daily check-in',
+                  variant: PulseBadgeVariant.primary,
+                ),
               ),
             ],
           ),
@@ -170,22 +172,28 @@ class HomeScreen extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Row(
-                children: [
-                  Icon(Icons.spa, color: Color(0xFF00685F), size: 18),
-                  SizedBox(width: 6),
-                  Text(
-                    'Mental Wellbeing & Reflection',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xFF131B2E),
+              const Expanded(
+                child: Row(
+                  children: [
+                    Icon(Icons.spa, color: Color(0xFF00685F), size: 18),
+                    SizedBox(width: 6),
+                    Expanded(
+                      child: Text(
+                        'Mental Wellbeing & Reflection',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF131B2E),
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
+              const SizedBox(width: 8),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                 decoration: BoxDecoration(
@@ -213,7 +221,7 @@ class HomeScreen extends ConsumerWidget {
             children: [
               Expanded(
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10),
@@ -222,7 +230,14 @@ class HomeScreen extends ConsumerWidget {
                     children: [
                       Icon(Icons.sentiment_satisfied, size: 16, color: Color(0xFF00685F)),
                       SizedBox(width: 6),
-                      Text('Mood: Okay', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600)),
+                      Expanded(
+                        child: Text(
+                          'Mood: Okay',
+                          style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -230,7 +245,7 @@ class HomeScreen extends ConsumerWidget {
               const SizedBox(width: 8),
               Expanded(
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10),
@@ -239,7 +254,14 @@ class HomeScreen extends ConsumerWidget {
                     children: [
                       Icon(Icons.waves, size: 16, color: Color(0xFF006398)),
                       SizedBox(width: 6),
-                      Text('Stress: Moderate', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600)),
+                      Expanded(
+                        child: Text(
+                          'Stress: Moderate',
+                          style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                     ],
                   ),
                 ),

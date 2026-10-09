@@ -56,10 +56,13 @@ class _WellbeingScreenState extends State<WellbeingScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'Wellbeing History & Rhythm',
-                  style: AppTypography.titleLarge.copyWith(fontWeight: FontWeight.w700),
+                Expanded(
+                  child: Text(
+                    'Wellbeing History & Rhythm',
+                    style: AppTypography.titleLarge.copyWith(fontWeight: FontWeight.w700),
+                  ),
                 ),
+                const SizedBox(width: 8),
                 IconButton(
                   icon: const Icon(Icons.close),
                   onPressed: () => Navigator.pop(ctx),
@@ -155,26 +158,27 @@ class _WellbeingScreenState extends State<WellbeingScreen> {
             ),
           ),
         ),
-        title: Row(
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               'Wellbeing',
               style: AppTypography.titleLarge.copyWith(fontWeight: FontWeight.w700, color: const Color(0xFF131B2E)),
             ),
-            const SizedBox(width: 8),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1.5),
               decoration: BoxDecoration(
                 color: const Color(0xFFCCE5FF),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(6),
               ),
               child: const Text(
                 'SIGNAL · REFLECTION · SUPPORT',
                 style: TextStyle(
-                  fontSize: 9,
+                  fontSize: 8.5,
                   fontWeight: FontWeight.w700,
                   color: Color(0xFF001D31),
-                  letterSpacing: 0.4,
+                  letterSpacing: 0.3,
                 ),
               ),
             ),
@@ -317,8 +321,11 @@ class _WellbeingScreenState extends State<WellbeingScreen> {
             style: AppTypography.bodySmall.copyWith(color: const Color(0xFF3D4947)),
           ),
           const SizedBox(height: 14),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 8,
+            runSpacing: 8,
             children: [
               Material(
                 color: const Color(0xFF00685F),
@@ -353,6 +360,7 @@ class _WellbeingScreenState extends State<WellbeingScreen> {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: const Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(Icons.timer_outlined, size: 14, color: Color(0xFF00685F)),
                     SizedBox(width: 4),
@@ -495,18 +503,22 @@ class _WellbeingScreenState extends State<WellbeingScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  const Icon(Icons.edit_note, color: Color(0xFF00685F), size: 20),
-                  const SizedBox(width: 6),
-                  Text(
-                    'Take a moment',
-                    style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700, color: const Color(0xFF131B2E)),
-                  ),
-                ],
+              Expanded(
+                child: Row(
+                  children: [
+                    const Icon(Icons.edit_note, color: Color(0xFF00685F), size: 20),
+                    const SizedBox(width: 6),
+                    Flexible(
+                      child: Text(
+                        'Take a moment',
+                        style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700, color: const Color(0xFF131B2E)),
+                      ),
+                    ),
+                  ],
+                ),
               ),
+              const SizedBox(width: 8),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                 decoration: BoxDecoration(
@@ -613,9 +625,11 @@ class _WellbeingScreenState extends State<WellbeingScreen> {
                 child: const Icon(Icons.insights, size: 16, color: Color(0xFF006398)),
               ),
               const SizedBox(width: 8),
-              Text(
-                'What you\'ve been noticing',
-                style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700, color: const Color(0xFF131B2E)),
+              Expanded(
+                child: Text(
+                  'What you\'ve been noticing',
+                  style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700, color: const Color(0xFF131B2E)),
+                ),
               ),
             ],
           ),
@@ -682,15 +696,18 @@ class _WellbeingScreenState extends State<WellbeingScreen> {
           const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                'ADAPTIVE MICRO-STEP',
-                style: TextStyle(
-                  fontSize: 10,
-                  fontWeight: FontWeight.w700,
-                  color: Color(0xFF00685F),
-                  letterSpacing: 0.6,
+              Expanded(
+                child: Text(
+                  'ADAPTIVE MICRO-STEP',
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFF00685F),
+                    letterSpacing: 0.6,
+                  ),
                 ),
               ),
+              SizedBox(width: 8),
               Icon(Icons.self_improvement, size: 18, color: Color(0xFF00685F)),
             ],
           ),
@@ -884,26 +901,30 @@ class _WellbeingScreenState extends State<WellbeingScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  Container(
-                    width: 26,
-                    height: 26,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF00685F).withValues(alpha: 0.1),
-                      shape: BoxShape.circle,
+              Expanded(
+                child: Row(
+                  children: [
+                    Container(
+                      width: 26,
+                      height: 26,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF00685F).withValues(alpha: 0.1),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(Icons.medical_services_outlined, size: 16, color: Color(0xFF00685F)),
                     ),
-                    child: const Icon(Icons.medical_services_outlined, size: 16, color: Color(0xFF00685F)),
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    'Your care team',
-                    style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700, color: const Color(0xFF131B2E)),
-                  ),
-                ],
+                    const SizedBox(width: 8),
+                    Flexible(
+                      child: Text(
+                        'Your care team',
+                        style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700, color: const Color(0xFF131B2E)),
+                      ),
+                    ),
+                  ],
+                ),
               ),
+              const SizedBox(width: 8),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                 decoration: BoxDecoration(
@@ -923,8 +944,11 @@ class _WellbeingScreenState extends State<WellbeingScreen> {
             style: AppTypography.bodySmall.copyWith(color: const Color(0xFF131B2E)),
           ),
           const SizedBox(height: 12),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 8,
+            runSpacing: 6,
             children: [
               const Text(
                 'Nothing is shared automatically.',
@@ -933,6 +957,7 @@ class _WellbeingScreenState extends State<WellbeingScreen> {
               InkWell(
                 onTap: () => context.push(AppRoutes.preConsult),
                 child: const Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
                       'Prepare for care',
@@ -964,15 +989,18 @@ class _WellbeingScreenState extends State<WellbeingScreen> {
           const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                'MENTAL WELLBEING · 4 MIN READ',
-                style: TextStyle(
-                  fontSize: 10,
-                  fontWeight: FontWeight.w700,
-                  color: Color(0xFF3D4947),
-                  letterSpacing: 0.5,
+              Expanded(
+                child: Text(
+                  'MENTAL WELLBEING · 4 MIN READ',
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFF3D4947),
+                    letterSpacing: 0.5,
+                  ),
                 ),
               ),
+              SizedBox(width: 8),
               Icon(Icons.menu_book_outlined, size: 18, color: Color(0xFF6D7A77)),
             ],
           ),
@@ -1055,9 +1083,11 @@ class _WellbeingScreenState extends State<WellbeingScreen> {
             ],
           ),
           const SizedBox(height: 14),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
+          Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 12,
+            runSpacing: 10,
             children: [
               const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
