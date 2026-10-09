@@ -226,11 +226,7 @@ class _WellbeingScreenState extends State<WellbeingScreen> {
               const SizedBox(height: 18),
               _buildAdaptiveStepCard(context),
               const SizedBox(height: 18),
-              _buildEmotionalSupportCard(context),
-              const SizedBox(height: 18),
-              _buildCareTeamCard(context),
-              const SizedBox(height: 18),
-              _buildEducationCard(context),
+              _buildWellbeingResourcesSection(context),
               const SizedBox(height: 18),
               _buildSafetyCard(context),
               const SizedBox(height: 28),
@@ -774,7 +770,7 @@ class _WellbeingScreenState extends State<WellbeingScreen> {
     );
   }
 
-  Widget _buildEmotionalSupportCard(BuildContext context) {
+  Widget _buildWellbeingResourcesSection(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -787,252 +783,142 @@ class _WellbeingScreenState extends State<WellbeingScreen> {
         children: [
           Row(
             children: [
-              const Icon(Icons.forum_outlined, size: 20, color: Color(0xFF006398)),
-              const SizedBox(width: 6),
-              Text(
-                'Need to talk?',
-                style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700, color: const Color(0xFF131B2E)),
-              ),
-            ],
-          ),
-          const SizedBox(height: 4),
-          Text(
-            'If something has been weighing on you, you don\'t have to figure it out alone.',
-            style: AppTypography.bodySmall.copyWith(color: const Color(0xFF3D4947)),
-          ),
-          const SizedBox(height: 12),
-          Material(
-            color: const Color(0xFFF2F3FF),
-            borderRadius: BorderRadius.circular(12),
-            child: InkWell(
-              onTap: () => context.push(AppRoutes.pulseAi),
-              borderRadius: BorderRadius.circular(12),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 36,
-                      height: 36,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFFCCE5FF),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(Icons.psychology_outlined, size: 20, color: Color(0xFF006398)),
-                    ),
-                    const SizedBox(width: 10),
-                    const Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Talk it through with Pulse AI',
-                            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 13, color: Color(0xFF131B2E)),
-                          ),
-                          Text(
-                            'Supportive reflection, not therapy',
-                            style: TextStyle(fontSize: 11, color: Color(0xFF3D4947)),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const Icon(Icons.arrow_forward, size: 16, color: Color(0xFF6D7A77)),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Material(
-            color: const Color(0xFFF2F3FF),
-            borderRadius: BorderRadius.circular(12),
-            child: InkWell(
-              onTap: () => context.push(AppRoutes.safety),
-              borderRadius: BorderRadius.circular(12),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 36,
-                      height: 36,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFF89F5E7),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(Icons.group_outlined, size: 20, color: Color(0xFF00685F)),
-                    ),
-                    const SizedBox(width: 10),
-                    const Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Find human support',
-                            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 13, color: Color(0xFF131B2E)),
-                          ),
-                          Text(
-                            'Care navigators and trusted listeners',
-                            style: TextStyle(fontSize: 11, color: Color(0xFF3D4947)),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const Icon(Icons.arrow_forward, size: 16, color: Color(0xFF6D7A77)),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildCareTeamCard(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: const Color(0xFFF2F3FF),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFE2E7FF), width: 1),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Row(
-                  children: [
-                    Container(
-                      width: 26,
-                      height: 26,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF00685F).withValues(alpha: 0.1),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(Icons.medical_services_outlined, size: 16, color: Color(0xFF00685F)),
-                    ),
-                    const SizedBox(width: 8),
-                    Flexible(
-                      child: Text(
-                        'Your care team',
-                        style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700, color: const Color(0xFF131B2E)),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              const Icon(Icons.hub_outlined, size: 20, color: Color(0xFF006398)),
               const SizedBox(width: 8),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFEAEDFF),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: const Text(
-                  'Optional',
-                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.w700, color: Color(0xFF3D4947)),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Your wellbeing is part of your overall health. You can prepare a summary for your next conversation with your care professional.',
-            style: AppTypography.bodySmall.copyWith(color: const Color(0xFF131B2E)),
-          ),
-          const SizedBox(height: 12),
-          Wrap(
-            alignment: WrapAlignment.spaceBetween,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            spacing: 8,
-            runSpacing: 6,
-            children: [
-              const Text(
-                'Nothing is shared automatically.',
-                style: TextStyle(fontSize: 11, color: Color(0xFF3D4947)),
-              ),
-              InkWell(
-                onTap: () => context.push(AppRoutes.preConsult),
-                child: const Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'Prepare for care',
-                      style: TextStyle(color: Color(0xFF00685F), fontSize: 12, fontWeight: FontWeight.w700),
-                    ),
-                    SizedBox(width: 4),
-                    Icon(Icons.arrow_forward, size: 14, color: Color(0xFF00685F)),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildEducationCard(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFEAEDFF), width: 1),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
               Expanded(
                 child: Text(
-                  'MENTAL WELLBEING · 4 MIN READ',
-                  style: TextStyle(
-                    fontSize: 10,
+                  'Connected Support & Resources',
+                  style: AppTypography.titleMedium.copyWith(
                     fontWeight: FontWeight.w700,
-                    color: Color(0xFF3D4947),
-                    letterSpacing: 0.5,
+                    color: const Color(0xFF131B2E),
                   ),
                 ),
               ),
-              SizedBox(width: 8),
-              Icon(Icons.menu_book_outlined, size: 18, color: Color(0xFF6D7A77)),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 6),
           Text(
-            'Understanding stress',
-            style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700, color: const Color(0xFF131B2E)),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            'How your nervous system responds to micro-pressures throughout the week, and simple ways to reset.',
+            'Explore supportive spaces, care preparation, and learning resources at your own pace.',
             style: AppTypography.bodySmall.copyWith(color: const Color(0xFF3D4947)),
           ),
-          const SizedBox(height: 10),
-          Align(
-            alignment: Alignment.centerRight,
-            child: InkWell(
-              onTap: () => context.push(AppRoutes.awareness),
-              child: const Row(
-                mainAxisSize: MainAxisSize.min,
+          const SizedBox(height: 14),
+          _buildSupportRow(
+            context: context,
+            icon: Icons.psychology_outlined,
+            iconBg: const Color(0xFFCCE5FF),
+            iconColor: const Color(0xFF006398),
+            title: 'Talk it through with Pulse AI',
+            subtitle: 'Supportive reflection and gentle check-in prompts',
+            actionText: 'Open AI',
+            onTap: () => context.push(AppRoutes.pulseAi),
+          ),
+          const Divider(height: 16, color: Color(0xFFEAEDFF)),
+          _buildSupportRow(
+            context: context,
+            icon: Icons.groups_outlined,
+            iconBg: const Color(0xFFD6F5EE),
+            iconColor: const Color(0xFF00685F),
+            title: 'Community Peer Support',
+            subtitle: 'Anonymous discussions, shared journeys, and empathy',
+            actionText: 'Community',
+            onTap: () => context.push(AppRoutes.community),
+          ),
+          const Divider(height: 16, color: Color(0xFFEAEDFF)),
+          _buildSupportRow(
+            context: context,
+            icon: Icons.medical_services_outlined,
+            iconBg: const Color(0xFFF2F3FF),
+            iconColor: const Color(0xFF00685F),
+            title: 'Your Care Team Preparation',
+            subtitle: 'Prepare a summary for your next visit (not shared automatically)',
+            actionText: 'Prepare',
+            onTap: () => context.push(AppRoutes.preConsult),
+          ),
+          const Divider(height: 16, color: Color(0xFFEAEDFF)),
+          _buildSupportRow(
+            context: context,
+            icon: Icons.menu_book_outlined,
+            iconBg: const Color(0xFFF2F3FF),
+            iconColor: const Color(0xFF3D4947),
+            title: 'Understanding Stress & Awareness',
+            subtitle: 'Learn how your nervous system responds to micro-pressures',
+            actionText: 'Learn',
+            onTap: () => context.push(AppRoutes.awareness),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSupportRow({
+    required BuildContext context,
+    required IconData icon,
+    required Color iconBg,
+    required Color iconColor,
+    required String title,
+    required String subtitle,
+    required String actionText,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(10),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4),
+        child: Row(
+          children: [
+            Container(
+              width: 36,
+              height: 36,
+              decoration: BoxDecoration(
+                color: iconBg,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(icon, size: 20, color: iconColor),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Explore awareness',
-                    style: TextStyle(color: Color(0xFF00685F), fontSize: 12, fontWeight: FontWeight.w700),
+                    title,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 13,
+                      color: Color(0xFF131B2E),
+                    ),
                   ),
-                  SizedBox(width: 4),
-                  Icon(Icons.arrow_forward, size: 14, color: Color(0xFF00685F)),
+                  Text(
+                    subtitle,
+                    style: const TextStyle(
+                      fontSize: 11,
+                      color: Color(0xFF3D4947),
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ],
               ),
             ),
-          ),
-        ],
+            const SizedBox(width: 6),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  actionText,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFF00685F),
+                  ),
+                ),
+                const SizedBox(width: 2),
+                const Icon(Icons.arrow_forward, size: 14, color: Color(0xFF00685F)),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -11,7 +11,7 @@ class PatientShellScreen extends StatelessWidget {
   int _calculateSelectedIndex(BuildContext context) {
     final location = GoRouterState.of(context).uri.toString();
     if (location.startsWith(AppRoutes.pulseAi)) return 1;
-    if (location.startsWith(AppRoutes.awareness)) return 2;
+    if (location.startsWith(AppRoutes.community)) return 2;
     if (location.startsWith(AppRoutes.care)) return 3;
     if (location.startsWith(AppRoutes.profile)) return 4;
     return 0;
@@ -26,7 +26,7 @@ class PatientShellScreen extends StatelessWidget {
         context.go(AppRoutes.pulseAi);
         break;
       case 2:
-        context.go(AppRoutes.awareness);
+        context.go(AppRoutes.community);
         break;
       case 3:
         context.go(AppRoutes.care);

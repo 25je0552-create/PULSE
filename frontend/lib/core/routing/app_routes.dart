@@ -23,6 +23,7 @@ class AppRoutes {
 
   static const String awareness = '/patient/awareness';
   static const String videoDetail = '/patient/awareness/:id';
+  static const String community = '/patient/community';
 
   static const String records = '/patient/records';
   static const String family = '/patient/family';

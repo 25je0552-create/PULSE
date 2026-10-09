@@ -29,7 +29,7 @@ class PulseBottomNav extends StatelessWidget {
             children: [
               Expanded(child: _buildNavItem(0, Icons.home_outlined, Icons.home, 'Home')),
               Expanded(child: _buildNavItem(1, Icons.auto_awesome_outlined, Icons.auto_awesome, 'Pulse AI')),
-              Expanded(child: _buildNavItem(2, Icons.school_outlined, Icons.school, 'Awareness')),
+              Expanded(child: _buildNavItem(2, Icons.groups_outlined, Icons.groups, 'Community')),
               Expanded(child: _buildNavItem(3, Icons.healing_outlined, Icons.healing, 'Care')),
               Expanded(child: _buildNavItem(4, Icons.person_outline, Icons.person, 'Profile')),
             ],

@@ -78,17 +78,15 @@ class HomeScreen extends ConsumerWidget {
               const SizedBox(height: 20),
               _buildCheckInPromptCard(context),
               const SizedBox(height: 20),
-              _buildPulseTodayCard(homeState.pulseToday),
+              _buildWellbeingSpaceCard(context, homeState.pulseToday),
               const SizedBox(height: 20),
               _buildNextSmallStepCard(context, homeState.nextSmallStep),
-              const SizedBox(height: 20),
-              _buildWellbeingSpaceCard(context),
               const SizedBox(height: 20),
               _buildProgressCard(context, homeState.progressSummary),
               const SizedBox(height: 20),
               _buildCareTeamCard(context, homeState.careTeamStatus),
               const SizedBox(height: 20),
-              _buildAwarenessCard(context, homeState.recommendedAwareness),
+              _buildQuickLaunchpadSection(context),
               const SizedBox(height: 24),
             ],
           ),
@@ -136,34 +134,17 @@ class HomeScreen extends ConsumerWidget {
             style: AppTypography.bodySmall.copyWith(color: AppColors.onSurfaceVariant),
           ),
           const SizedBox(height: 16),
-          Row(
-            children: [
-              Expanded(
-                child: PulseButton(
-                  text: 'Check in',
-                  icon: Icons.arrow_forward,
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
-                  onPressed: () => context.push(AppRoutes.checkin),
-                ),
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: PulseButton(
-                  text: 'Wellbeing space',
-                  variant: PulseButtonVariant.outlined,
-                  icon: Icons.spa_outlined,
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
-                  onPressed: () => context.push(AppRoutes.wellbeing),
-                ),
-              ),
-            ],
+          PulseButton(
+            text: 'Check in',
+            icon: Icons.arrow_forward,
+            onPressed: () => context.push(AppRoutes.checkin),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildWellbeingSpaceCard(BuildContext context) {
+  Widget _buildWellbeingSpaceCard(BuildContext context, Map<String, dynamic> pulse) {
     return PulseCard(
       backgroundColor: const Color(0xFFF2F3FF),
       borderColor: const Color(0xFFE2E7FF),
@@ -213,62 +194,41 @@ class HomeScreen extends ConsumerWidget {
           ),
           const SizedBox(height: 10),
           Text(
-            'Take a moment to check in with yourself. Explore your signals, write private reflections, and build adaptive habits.',
+            'Today\'s self-reported signals. Explore calm breathing, log private reflections, and pace your day.',
             style: AppTypography.bodySmall.copyWith(color: const Color(0xFF3D4947)),
           ),
           const SizedBox(height: 14),
           Row(
             children: [
               Expanded(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: const Row(
-                    children: [
-                      Icon(Icons.sentiment_satisfied, size: 16, color: Color(0xFF00685F)),
-                      SizedBox(width: 6),
-                      Expanded(
-                        child: Text(
-                          'Mood: Okay',
-                          style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
-                  ),
+                child: _buildSignalPill(
+                  icon: Icons.sentiment_satisfied,
+                  label: 'Mood',
+                  value: pulse['mood'] ?? 'Okay',
+                  color: const Color(0xFF00685F),
                 ),
               ),
               const SizedBox(width: 8),
               Expanded(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: const Row(
-                    children: [
-                      Icon(Icons.waves, size: 16, color: Color(0xFF006398)),
-                      SizedBox(width: 6),
-                      Expanded(
-                        child: Text(
-                          'Stress: Moderate',
-                          style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
-                  ),
+                child: _buildSignalPill(
+                  icon: Icons.waves,
+                  label: 'Stress',
+                  value: pulse['stress'] ?? 'Moderate',
+                  color: const Color(0xFF006398),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: _buildSignalPill(
+                  icon: Icons.bolt_outlined,
+                  label: 'Energy',
+                  value: pulse['energy'] ?? 'Low',
+                  color: const Color(0xFFD97706),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 14),
+          const SizedBox(height: 16),
           PulseButton(
             text: 'Open Wellbeing Space',
             icon: Icons.arrow_forward,
@@ -279,115 +239,41 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildPulseTodayCard(Map<String, dynamic> pulse) {
-    return PulseCard(
-      padding: const EdgeInsets.all(18),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Text(
-                  'Your Pulse today',
-                  style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700),
-                ),
-              ),
-              const SizedBox(width: 8),
-              Flexible(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Flexible(
-                      child: Text(
-                        'User-reported signals',
-                        style: AppTypography.labelSmall.copyWith(color: AppColors.outline),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    const SizedBox(width: 4),
-                    const Icon(Icons.info_outline, size: 14, color: AppColors.outline),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              Expanded(
-                child: _buildSignalTile(
-                  icon: Icons.sentiment_satisfied_alt_outlined,
-                  label: 'Mood',
-                  value: pulse['mood'] ?? 'Okay',
-                  detail: pulse['moodDetail'] ?? 'Logged 8:30 AM',
-                  color: AppColors.primary,
-                ),
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: _buildSignalTile(
-                  icon: Icons.waves,
-                  label: 'Stress',
-                  value: pulse['stress'] ?? 'Moderate',
-                  detail: pulse['stressDetail'] ?? 'Steady',
-                  color: AppColors.secondary,
-                ),
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: _buildSignalTile(
-                  icon: Icons.bolt_outlined,
-                  label: 'Energy',
-                  value: pulse['energy'] ?? 'Low',
-                  detail: pulse['energyDetail'] ?? 'Needs rest',
-                  color: const Color(0xFFD97706),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 14),
-          Text(
-            'Self-reported daily signals for your personal reflection — not clinical assessments.',
-            style: AppTypography.labelSmall.copyWith(color: AppColors.outline),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSignalTile({
+  Widget _buildSignalPill({
     required IconData icon,
     required String label,
     required String value,
-    required String detail,
     required Color color,
   }) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       decoration: BoxDecoration(
-        color: AppColors.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(12),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, size: 18, color: color),
-          const SizedBox(height: 6),
-          Text(
-            label,
-            style: AppTypography.labelSmall.copyWith(color: AppColors.outline),
+          Row(
+            children: [
+              Icon(icon, size: 14, color: color),
+              const SizedBox(width: 4),
+              Expanded(
+                child: Text(
+                  label,
+                  style: AppTypography.labelSmall.copyWith(color: AppColors.outline, fontSize: 10),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: 2),
           Text(
             value,
-            style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700),
-          ),
-          const SizedBox(height: 2),
-          Text(
-            detail,
-            style: AppTypography.labelSmall.copyWith(color: AppColors.onSurfaceVariant),
+            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),
@@ -435,6 +321,7 @@ class HomeScreen extends ConsumerWidget {
           InkWell(
             onTap: () => context.push(AppRoutes.adaptiveGoal),
             child: Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   'View plan',
@@ -565,49 +452,21 @@ class HomeScreen extends ConsumerWidget {
             style: AppTypography.bodySmall.copyWith(color: AppColors.onSurfaceVariant),
           ),
           const SizedBox(height: 14),
-          Wrap(
-            spacing: 16,
-            runSpacing: 8,
+          Row(
             children: [
-              InkWell(
-                onTap: () => context.push(AppRoutes.care),
-                child: Text(
-                  'View care →',
-                  style: AppTypography.labelLarge.copyWith(
-                    color: AppColors.primary,
-                    fontWeight: FontWeight.w700,
-                  ),
+              Expanded(
+                child: PulseButton(
+                  text: 'View care continuity',
+                  icon: Icons.arrow_forward,
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  onPressed: () => context.push(AppRoutes.care),
                 ),
               ),
-              InkWell(
-                onTap: () => context.push(AppRoutes.records),
-                child: Text(
-                  'Health records →',
-                  style: AppTypography.labelLarge.copyWith(
-                    color: AppColors.secondary,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-              InkWell(
-                onTap: () => context.push(AppRoutes.wellbeing),
-                child: Text(
-                  'Wellbeing →',
-                  style: AppTypography.labelLarge.copyWith(
-                    color: const Color(0xFF00685F),
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-              InkWell(
-                onTap: () => context.push(AppRoutes.family),
-                child: Text(
-                  'Family Circle →',
-                  style: AppTypography.labelLarge.copyWith(
-                    color: AppColors.tertiary,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
+              const SizedBox(width: 8),
+              IconButton.outlined(
+                tooltip: 'Appointments',
+                icon: const Icon(Icons.calendar_today_outlined, size: 20, color: AppColors.primary),
+                onPressed: () => context.push(AppRoutes.appointments),
               ),
             ],
           ),
@@ -616,66 +475,104 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildAwarenessCard(BuildContext context, Map<String, dynamic> awareness) {
+  Widget _buildQuickLaunchpadSection(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Quick launchpad',
+          style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700),
+        ),
+        const SizedBox(height: 12),
+        Row(
+          children: [
+            Expanded(
+              child: _buildLaunchpadTile(
+                icon: Icons.school_outlined,
+                color: AppColors.primary,
+                title: 'Awareness',
+                subtitle: 'Education',
+                onTap: () => context.push(AppRoutes.awareness),
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: _buildLaunchpadTile(
+                icon: Icons.shield_outlined,
+                color: AppColors.secondary,
+                title: 'Records',
+                subtitle: 'Vault archive',
+                onTap: () => context.push(AppRoutes.records),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 10),
+        Row(
+          children: [
+            Expanded(
+              child: _buildLaunchpadTile(
+                icon: Icons.favorite_outline,
+                color: AppColors.tertiary,
+                title: 'Family',
+                subtitle: 'Trusted circle',
+                onTap: () => context.push(AppRoutes.family),
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: _buildLaunchpadTile(
+                icon: Icons.auto_awesome_outlined,
+                color: const Color(0xFFD97706),
+                title: 'Pulse AI',
+                subtitle: 'Pacing help',
+                onTap: () => context.push(AppRoutes.pulseAi),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLaunchpadTile({
+    required IconData icon,
+    required Color color,
+    required String title,
+    required String subtitle,
+    required VoidCallback onTap,
+  }) {
     return PulseCard(
-      padding: const EdgeInsets.all(18),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      onTap: onTap,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+      child: Row(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Text(
-                  'Learn something useful',
-                  style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700),
-                ),
-              ),
-              const SizedBox(width: 8),
-              const PulseBadge(
-                text: 'Recommended',
-                variant: PulseBadgeVariant.primary,
-              ),
-            ],
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: color.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(icon, color: color, size: 20),
           ),
-          const SizedBox(height: 10),
-          Row(
-            children: [
-              Flexible(
-                child: Text(
-                  awareness['category'] ?? 'Mental wellbeing',
-                  style: AppTypography.labelSmall.copyWith(color: AppColors.primary, fontWeight: FontWeight.w600),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              const SizedBox(width: 8),
-              Text('•', style: AppTypography.labelSmall.copyWith(color: AppColors.outline)),
-              const SizedBox(width: 8),
-              Text(
-                awareness['duration'] ?? '4 min read',
-                style: AppTypography.labelSmall.copyWith(color: AppColors.outline),
-              ),
-            ],
-          ),
-          const SizedBox(height: 6),
-          Text(
-            awareness['title'] ?? 'Understanding stress and your body',
-            style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700),
-          ),
-          const SizedBox(height: 14),
-          InkWell(
-            onTap: () => context.push('/patient/awareness/${awareness['id'] ?? 'aware_1'}'),
-            child: Row(
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Explore awareness',
-                  style: AppTypography.labelLarge.copyWith(
-                    color: AppColors.primary,
-                    fontWeight: FontWeight.w700,
-                  ),
+                  title,
+                  style: AppTypography.labelLarge.copyWith(fontWeight: FontWeight.w700),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                const SizedBox(width: 4),
-                const Icon(Icons.arrow_forward, size: 16, color: AppColors.primary),
+                Text(
+                  subtitle,
+                  style: AppTypography.labelSmall.copyWith(color: AppColors.outline),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ],
             ),
           ),

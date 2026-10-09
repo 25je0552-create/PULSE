@@ -24,6 +24,7 @@ import '../../features/awareness/video_detail_screen.dart';
 import '../../features/records/records_screen.dart';
 import '../../features/family/family_circle_screen.dart';
 import '../../features/profile/profile_screen.dart';
+import '../../features/community/community_screen.dart';
 import 'app_routes.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -70,8 +71,8 @@ final GoRouter appRouter = GoRouter(
           builder: (context, state) => const PulseAiScreen(),
         ),
         GoRoute(
-          path: AppRoutes.awareness,
-          builder: (context, state) => const AwarenessScreen(),
+          path: AppRoutes.community,
+          builder: (context, state) => const CommunityScreen(),
         ),
         GoRoute(
           path: AppRoutes.care,
@@ -127,6 +128,11 @@ final GoRouter appRouter = GoRouter(
       path: AppRoutes.safety,
       parentNavigatorKey: _rootNavigatorKey,
       builder: (context, state) => const SafetyScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.awareness,
+      parentNavigatorKey: _rootNavigatorKey,
+      builder: (context, state) => const AwarenessScreen(),
     ),
     GoRoute(
       path: '/patient/awareness/:id',

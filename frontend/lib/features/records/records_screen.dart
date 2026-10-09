@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import '../../core/routing/app_routes.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
-import '../../core/widgets/pulse_bottom_nav.dart';
 import 'records_provider.dart';
 
 class RecordsScreen extends ConsumerStatefulWidget {
@@ -517,26 +516,6 @@ class _RecordsScreenState extends ConsumerState<RecordsScreen> {
     );
   }
 
-  void _onBottomNavTapped(int index) {
-    switch (index) {
-      case 0:
-        context.go(AppRoutes.home);
-        break;
-      case 1:
-        context.go(AppRoutes.pulseAi);
-        break;
-      case 2:
-        context.go(AppRoutes.awareness);
-        break;
-      case 3:
-        context.go(AppRoutes.care);
-        break;
-      case 4:
-        context.go(AppRoutes.profile);
-        break;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(recordsProvider);
@@ -601,10 +580,6 @@ class _RecordsScreenState extends ConsumerState<RecordsScreen> {
             ),
           ),
         ],
-      ),
-      bottomNavigationBar: PulseBottomNav(
-        currentIndex: 3,
-        onTap: _onBottomNavTapped,
       ),
       body: SafeArea(
         child: SingleChildScrollView(

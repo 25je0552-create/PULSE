@@ -8,6 +8,7 @@ import 'package:pulse/features/family/family_circle_screen.dart';
 import 'package:pulse/features/home/home_screen.dart';
 import 'package:pulse/features/care/care_screen.dart';
 import 'package:pulse/features/records/records_screen.dart';
+import 'package:pulse/features/community/community_screen.dart';
 
 void main() {
   testWidgets('Pulse app launches and renders splash screen', (WidgetTester tester) async {
@@ -128,6 +129,24 @@ void main() {
 
     expect(find.text('SECURE PERSONAL ARCHIVE'), findsOneWidget);
     expect(find.text('Browse by category'), findsOneWidget);
+  });
+
+  testWidgets('Community screen renders without overflow on mobile viewport', (WidgetTester tester) async {
+    tester.view.physicalSize = const Size(360, 640);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(() => tester.view.resetPhysicalSize());
+
+    await tester.pumpWidget(
+      const ProviderScope(
+        child: MaterialApp(
+          home: CommunityScreen(),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Community'), findsOneWidget);
+    expect(find.text('Discussions'), findsOneWidget);
   });
 }
 

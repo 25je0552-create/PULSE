@@ -88,11 +88,7 @@ class CareScreen extends ConsumerWidget {
               const SizedBox(height: 20),
               _buildPreConsultDigestTeaserCard(context),
               const SizedBox(height: 20),
-              _buildHealthRecordsVaultCard(context),
-              const SizedBox(height: 20),
-              _buildFamilyCircleTeaserCard(context),
-              const SizedBox(height: 20),
-              _buildWellbeingSpaceTeaserCard(context),
+              _buildConnectedResourcesSection(context),
               const SizedBox(height: 24),
             ],
           ),
@@ -422,253 +418,138 @@ class CareScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildHealthRecordsVaultCard(BuildContext context) {
-    return PulseCard(
-      padding: const EdgeInsets.all(18),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  Widget _buildConnectedResourcesSection(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Connected Patient Vault & Support',
+          style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700),
+        ),
+        const SizedBox(height: 12),
+        PulseCard(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Flexible(
-                child: PulseBadge(
-                  text: 'Secure Archive',
-                  variant: PulseBadgeVariant.primary,
-                ),
-              ),
-              const SizedBox(width: 8),
-              Text(
-                'Personal Vault',
-                style: AppTypography.labelSmall.copyWith(color: AppColors.outline),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Text(
-            'Your health information',
-            style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            'Keep consultation summaries, care plans, reports, and medication history in your private encrypted vault.',
-            style: AppTypography.bodySmall.copyWith(color: AppColors.onSurfaceVariant),
-          ),
-          const SizedBox(height: 12),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-            decoration: BoxDecoration(
-              color: AppColors.surfaceContainerLow,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    children: [
-                      Text(
-                        '6',
-                        style: AppTypography.titleMedium.copyWith(
-                          fontWeight: FontWeight.w800,
-                          color: AppColors.primary,
-                        ),
-                      ),
-                      Text(
-                        'Total records',
-                        style: AppTypography.labelSmall.copyWith(fontSize: 10, color: AppColors.outline),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                ),
-                Container(width: 1, height: 28, color: AppColors.outlineVariant),
-                Expanded(
-                  child: Column(
-                    children: [
-                      Text(
-                        '2',
-                        style: AppTypography.titleMedium.copyWith(
-                          fontWeight: FontWeight.w800,
-                          color: AppColors.secondary,
-                        ),
-                      ),
-                      Text(
-                        'Care notes',
-                        style: AppTypography.labelSmall.copyWith(fontSize: 10, color: AppColors.outline),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                ),
-                Container(width: 1, height: 28, color: AppColors.outlineVariant),
-                Expanded(
-                  child: Column(
-                    children: [
-                      Text(
-                        'Encrypted',
-                        style: AppTypography.titleMedium.copyWith(
-                          fontWeight: FontWeight.w800,
-                          color: AppColors.onSurface,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      Text(
-                        'Private archive',
-                        style: AppTypography.labelSmall.copyWith(fontSize: 10, color: AppColors.outline),
-                        textAlign: TextAlign.center,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 16),
-          PulseButton(
-            text: 'Open Health Records & Vault',
-            icon: Icons.shield_outlined,
-            onPressed: () => context.push(AppRoutes.records),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildFamilyCircleTeaserCard(BuildContext context) {
-    return PulseCard(
-      padding: const EdgeInsets.all(18),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Flexible(
-                child: PulseBadge(
-                  text: 'Trusted Companions',
-                  variant: PulseBadgeVariant.neutral,
-                ),
-              ),
-              const SizedBox(width: 8),
-              Text(
-                '1 connected',
-                style: AppTypography.labelSmall.copyWith(color: AppColors.outline),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Text(
-            'Family Circle & Support Network',
-            style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            'Invite someone you trust to walk your wellbeing journey alongside you. Zero automatic sharing by default.',
-            style: AppTypography.bodySmall.copyWith(color: AppColors.onSurfaceVariant),
-          ),
-          const SizedBox(height: 12),
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: AppColors.surfaceContainerLow,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Row(
-              children: [
-                Container(
-                  width: 36,
-                  height: 36,
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFCCFBF1),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Center(
-                    child: Text(
-                      'P',
-                      style: AppTypography.titleMedium.copyWith(
-                        color: AppColors.primary,
-                        fontWeight: FontWeight.w800,
-                      ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Flexible(
+                    child: PulseBadge(
+                      text: 'Secure Archive',
+                      variant: PulseBadgeVariant.primary,
                     ),
                   ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Priya · Sister',
-                        style: AppTypography.labelLarge.copyWith(fontWeight: FontWeight.w700),
-                      ),
-                      Text(
-                        'Shared: Wellbeing updates & goals',
-                        style: AppTypography.bodySmall.copyWith(
-                          fontSize: 11,
-                          color: AppColors.onSurfaceVariant,
-                        ),
-                      ),
-                    ],
+                  const SizedBox(width: 8),
+                  Text(
+                    'Personal Vault',
+                    style: AppTypography.labelSmall.copyWith(color: AppColors.outline),
                   ),
-                ),
-                const PulseBadge(text: 'Active', variant: PulseBadgeVariant.success),
-              ],
-            ),
-          ),
-          const SizedBox(height: 16),
-          PulseButton(
-            text: 'Manage Family Circle',
-            variant: PulseButtonVariant.outlined,
-            icon: Icons.people_outline,
-            onPressed: () => context.push(AppRoutes.family),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildWellbeingSpaceTeaserCard(BuildContext context) {
-    return PulseCard(
-      backgroundColor: const Color(0xFFF2F3FF),
-      borderColor: const Color(0xFFE2E7FF),
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                child: PulseBadge(
-                  text: 'Signal · Reflection · Support',
-                  variant: PulseBadgeVariant.primary,
-                ),
+                ],
               ),
-              SizedBox(width: 8),
-              Icon(Icons.spa, color: Color(0xFF00685F), size: 20),
+              const SizedBox(height: 10),
+              Text(
+                'Personal Vault & Records',
+                style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                'Consultation summaries, care plans, reports, and medication history in your private encrypted vault.',
+                style: AppTypography.bodySmall.copyWith(color: AppColors.onSurfaceVariant),
+              ),
+              const SizedBox(height: 14),
+              PulseButton(
+                text: 'Open Health Records & Vault',
+                icon: Icons.shield_outlined,
+                onPressed: () => context.push(AppRoutes.records),
+              ),
             ],
           ),
-          const SizedBox(height: 12),
-          Text(
-            'Personal Wellbeing Space',
-            style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700),
+        ),
+        const SizedBox(height: 12),
+        PulseCard(
+          backgroundColor: const Color(0xFFF2F3FF),
+          borderColor: const Color(0xFFE2E7FF),
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    child: PulseBadge(
+                      text: 'Signal · Reflection · Support',
+                      variant: PulseBadgeVariant.primary,
+                    ),
+                  ),
+                  SizedBox(width: 8),
+                  Icon(Icons.spa, color: Color(0xFF00685F), size: 18),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Text(
+                'Personal Wellbeing Space',
+                style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                'Check in between visits. Track personal rhythms and log private reflections for your clinician.',
+                style: AppTypography.bodySmall.copyWith(color: AppColors.onSurfaceVariant),
+              ),
+              const SizedBox(height: 14),
+              PulseButton(
+                text: 'Open Wellbeing Space',
+                icon: Icons.spa_outlined,
+                onPressed: () => context.push(AppRoutes.wellbeing),
+              ),
+            ],
           ),
-          const SizedBox(height: 4),
-          Text(
-            'Check in with yourself between appointments. Track your personal rhythm, log private reflections, and prepare your wellbeing summary for your care team.',
-            style: AppTypography.bodySmall.copyWith(color: AppColors.onSurfaceVariant),
+        ),
+        const SizedBox(height: 12),
+        PulseCard(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Flexible(
+                    child: PulseBadge(
+                      text: 'Trusted Companions',
+                      variant: PulseBadgeVariant.neutral,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Family Circle',
+                    style: AppTypography.labelSmall.copyWith(color: AppColors.outline),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Text(
+                'Family Circle & Support Network',
+                style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                'Invite someone you trust to walk your journey beside you. Zero automatic sharing by default.',
+                style: AppTypography.bodySmall.copyWith(color: AppColors.onSurfaceVariant),
+              ),
+              const SizedBox(height: 14),
+              PulseButton(
+                text: 'Manage Family Circle',
+                variant: PulseButtonVariant.outlined,
+                icon: Icons.people_outline,
+                onPressed: () => context.push(AppRoutes.family),
+              ),
+            ],
           ),
-          const SizedBox(height: 16),
-          PulseButton(
-            text: 'Open Wellbeing Space',
-            icon: Icons.spa_outlined,
-            onPressed: () => context.push(AppRoutes.wellbeing),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
