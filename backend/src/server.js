@@ -23,6 +23,28 @@ app.use(express.json());
 
 connectDB();
 
+app.get('/', (req, res) => {
+  res.json({
+    status: 'active',
+    product: 'Pulse Continuous Care Platform API',
+    version: '1.0.0',
+    endpoints: {
+      health: '/api/health',
+      auth: '/api/auth',
+      patient: '/api/patient',
+      checkins: '/api/checkins',
+      ai: '/api/ai',
+      goals: '/api/goals',
+      care: '/api/care',
+      awareness: '/api/awareness',
+      records: '/api/records',
+      family: '/api/family',
+      wellbeing: '/api/wellbeing',
+      safety: '/api/safety'
+    }
+  });
+});
+
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'healthy',
@@ -46,7 +68,7 @@ app.use('/api/safety', safetyRoutes);
 
 app.use(errorHandler);
 
-const server = app.listen(env.PORT, () => {
+const server = app.listen(env.PORT, '0.0.0.0', () => {
   console.log('Pulse Continuous Care API running on port ' + env.PORT);
 });
 
