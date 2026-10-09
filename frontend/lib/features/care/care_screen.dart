@@ -87,6 +87,10 @@ class CareScreen extends ConsumerWidget {
               _buildUpcomingReviewCard(context, appt),
               const SizedBox(height: 20),
               _buildPreConsultDigestTeaserCard(context),
+              const SizedBox(height: 20),
+              _buildHealthRecordsVaultCard(context),
+              const SizedBox(height: 20),
+              _buildFamilyCircleTeaserCard(context),
               const SizedBox(height: 24),
             ],
           ),
@@ -408,4 +412,201 @@ class CareScreen extends ConsumerWidget {
       ),
     );
   }
+
+  Widget _buildHealthRecordsVaultCard(BuildContext context) {
+    return PulseCard(
+      padding: const EdgeInsets.all(18),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Flexible(
+                child: PulseBadge(
+                  text: 'Stage 05 · Secure Archive',
+                  variant: PulseBadgeVariant.primary,
+                ),
+              ),
+              const SizedBox(width: 8),
+              Text(
+                'Personal Vault',
+                style: AppTypography.labelSmall.copyWith(color: AppColors.outline),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Text(
+            'Your health information',
+            style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            'Keep consultation summaries, care plans, reports, and medication history in your private encrypted vault.',
+            style: AppTypography.bodySmall.copyWith(color: AppColors.onSurfaceVariant),
+          ),
+          const SizedBox(height: 12),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            decoration: BoxDecoration(
+              color: AppColors.surfaceContainerLow,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Column(
+                  children: [
+                    Text(
+                      '6',
+                      style: AppTypography.titleMedium.copyWith(
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                    Text(
+                      'Total records',
+                      style: AppTypography.labelSmall.copyWith(fontSize: 10, color: AppColors.outline),
+                    ),
+                  ],
+                ),
+                Container(width: 1, height: 28, color: AppColors.outlineVariant),
+                Column(
+                  children: [
+                    Text(
+                      '2',
+                      style: AppTypography.titleMedium.copyWith(
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.secondary,
+                      ),
+                    ),
+                    Text(
+                      'Care notes',
+                      style: AppTypography.labelSmall.copyWith(fontSize: 10, color: AppColors.outline),
+                    ),
+                  ],
+                ),
+                Container(width: 1, height: 28, color: AppColors.outlineVariant),
+                Column(
+                  children: [
+                    Text(
+                      'Encrypted',
+                      style: AppTypography.titleMedium.copyWith(
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.onSurface,
+                      ),
+                    ),
+                    Text(
+                      'Private archive',
+                      style: AppTypography.labelSmall.copyWith(fontSize: 10, color: AppColors.outline),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+          PulseButton(
+            text: 'Open Health Records & Vault',
+            icon: Icons.shield_outlined,
+            onPressed: () => context.push(AppRoutes.records),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFamilyCircleTeaserCard(BuildContext context) {
+    return PulseCard(
+      padding: const EdgeInsets.all(18),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Flexible(
+                child: PulseBadge(
+                  text: 'Trusted Companions',
+                  variant: PulseBadgeVariant.neutral,
+                ),
+              ),
+              const SizedBox(width: 8),
+              Text(
+                '1 connected',
+                style: AppTypography.labelSmall.copyWith(color: AppColors.outline),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Text(
+            'Family Circle & Support Network',
+            style: AppTypography.titleMedium.copyWith(fontWeight: FontWeight.w700),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            'Invite someone you trust to walk your wellbeing journey alongside you. Zero automatic sharing by default.',
+            style: AppTypography.bodySmall.copyWith(color: AppColors.onSurfaceVariant),
+          ),
+          const SizedBox(height: 12),
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: AppColors.surfaceContainerLow,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Row(
+              children: [
+                Container(
+                  width: 36,
+                  height: 36,
+                  decoration: const BoxDecoration(
+                    color: Color(0xFFCCFBF1),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Center(
+                    child: Text(
+                      'P',
+                      style: AppTypography.titleMedium.copyWith(
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Priya · Sister',
+                        style: AppTypography.labelLarge.copyWith(fontWeight: FontWeight.w700),
+                      ),
+                      Text(
+                        'Shared: Wellbeing updates & goals',
+                        style: AppTypography.bodySmall.copyWith(
+                          fontSize: 11,
+                          color: AppColors.onSurfaceVariant,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const PulseBadge(text: 'Active', variant: PulseBadgeVariant.success),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+          PulseButton(
+            text: 'Manage Family Circle',
+            variant: PulseButtonVariant.outlined,
+            icon: Icons.people_outline,
+            onPressed: () => context.push(AppRoutes.family),
+          ),
+        ],
+      ),
+    );
+  }
 }
+

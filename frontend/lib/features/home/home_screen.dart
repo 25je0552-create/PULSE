@@ -428,15 +428,41 @@ class HomeScreen extends ConsumerWidget {
             style: AppTypography.bodySmall.copyWith(color: AppColors.onSurfaceVariant),
           ),
           const SizedBox(height: 14),
-          InkWell(
-            onTap: () => context.push(AppRoutes.care),
-            child: Text(
-              'View care →',
-              style: AppTypography.labelLarge.copyWith(
-                color: AppColors.primary,
-                fontWeight: FontWeight.w700,
+          Wrap(
+            spacing: 16,
+            runSpacing: 8,
+            children: [
+              InkWell(
+                onTap: () => context.push(AppRoutes.care),
+                child: Text(
+                  'View care →',
+                  style: AppTypography.labelLarge.copyWith(
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
               ),
-            ),
+              InkWell(
+                onTap: () => context.push(AppRoutes.records),
+                child: Text(
+                  'Health records →',
+                  style: AppTypography.labelLarge.copyWith(
+                    color: AppColors.secondary,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () => context.push(AppRoutes.family),
+                child: Text(
+                  'Family Circle →',
+                  style: AppTypography.labelLarge.copyWith(
+                    color: AppColors.tertiary,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),

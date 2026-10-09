@@ -6,7 +6,7 @@ class FamilyMemberModel {
   final String id;
   final String name;
   final String relation;
-  final String phone;
+  final String contact;
   final String status;
   final Map<String, bool> sharedPermissions;
 
@@ -14,7 +14,7 @@ class FamilyMemberModel {
     required this.id,
     required this.name,
     required this.relation,
-    required this.phone,
+    required this.contact,
     this.status = 'Connected',
     required this.sharedPermissions,
   });
@@ -23,7 +23,7 @@ class FamilyMemberModel {
     String? id,
     String? name,
     String? relation,
-    String? phone,
+    String? contact,
     String? status,
     Map<String, bool>? sharedPermissions,
   }) {
@@ -31,7 +31,7 @@ class FamilyMemberModel {
       id: id ?? this.id,
       name: name ?? this.name,
       relation: relation ?? this.relation,
-      phone: phone ?? this.phone,
+      contact: contact ?? this.contact,
       status: status ?? this.status,
       sharedPermissions: sharedPermissions ?? this.sharedPermissions,
     );
@@ -69,10 +69,10 @@ class FamilyNotifier extends StateNotifier<FamilyState> {
                 id: 'fam_1',
                 name: 'Priya',
                 relation: 'Sister',
-                phone: '+91 98111 22334',
+                contact: 'priya@family.pulse',
                 status: 'Connected',
                 sharedPermissions: {
-                  'Wellbeing updates': true,
+                  'Wellbeing check-ins': true,
                   'Goals & progress': true,
                   'Care schedule': false,
                   'Care summaries': false,
@@ -98,20 +98,39 @@ class FamilyNotifier extends StateNotifier<FamilyState> {
     );
   }
 
-  void addMember(String name, String relation, String phone) {
+  void updateAllPermissions(
+      String memberId, Map<String, bool> updatedPermissions) {
+    state = state.copyWith(
+      members: state.members.map((m) {
+        if (m.id == memberId) {
+          final updated = m.copyWith(sharedPermissions: updatedPermissions);
+          _syncPermissions(updated);
+          return updated;
+        }
+        return m;
+      }).toList(),
+    );
+  }
+
+  void removeMember(String memberId) {
+    state = state.copyWith(
+      members: state.members.where((m) => m.id != memberId).toList(),
+    );
+  }
+
+  void addMember({
+    required String name,
+    required String relation,
+    required String contact,
+    required Map<String, bool> permissions,
+  }) {
     final newMember = FamilyMemberModel(
       id: 'fam_${DateTime.now().millisecondsSinceEpoch}',
       name: name,
       relation: relation,
-      phone: phone,
+      contact: contact,
       status: 'Connected',
-      sharedPermissions: {
-        'Wellbeing updates': false,
-        'Goals & progress': true,
-        'Care schedule': false,
-        'Care summaries': false,
-        'Health records': false,
-      },
+      sharedPermissions: permissions,
     );
 
     state = state.copyWith(members: [...state.members, newMember]);
@@ -121,7 +140,7 @@ class FamilyNotifier extends StateNotifier<FamilyState> {
         data: {
           'name': name,
           'relation': relation,
-          'phone': phone,
+          'contact': contact,
         },
       );
     } catch (_) {}
@@ -140,6 +159,7 @@ class FamilyNotifier extends StateNotifier<FamilyState> {
   }
 }
 
-final familyProvider = StateNotifierProvider<FamilyNotifier, FamilyState>((ref) {
+final familyProvider =
+    StateNotifierProvider<FamilyNotifier, FamilyState>((ref) {
   return FamilyNotifier();
 });

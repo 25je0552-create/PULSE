@@ -87,7 +87,7 @@ class ProfileScreen extends ConsumerWidget {
             children: [
               _buildUserCard(profile),
               const SizedBox(height: 20),
-              _buildSnapshotCard(profile),
+              _buildSnapshotCard(context, profile),
               const SizedBox(height: 20),
               _buildPrivacySharingSection(context),
               const SizedBox(height: 20),
@@ -172,7 +172,7 @@ class ProfileScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildSnapshotCard(ProfileState profile) {
+  Widget _buildSnapshotCard(BuildContext context, ProfileState profile) {
     return PulseCard(
       padding: const EdgeInsets.all(18),
       child: Column(
@@ -195,13 +195,38 @@ class ProfileScreen extends ConsumerWidget {
             ],
           ),
           const SizedBox(height: 12),
-          _buildSnapshotItem(Icons.calendar_today_outlined, 'Member since', profile.memberSince),
+          _buildSnapshotItem(
+            Icons.calendar_today_outlined,
+            'Member since',
+            profile.memberSince,
+          ),
           const SizedBox(height: 8),
-          _buildSnapshotItem(Icons.medical_services_outlined, 'Care team', '1 connected · Dr. Meera Sharma'),
+          _buildSnapshotItem(
+            Icons.medical_services_outlined,
+            'Care team',
+            '1 connected · Dr. Meera Sharma',
+            onTap: () => context.push(AppRoutes.doctorProfile),
+          ),
           const SizedBox(height: 8),
-          _buildSnapshotItem(Icons.family_restroom_outlined, 'Family Circle', '1 trusted person · Priya (Sister)'),
+          _buildSnapshotItem(
+            Icons.family_restroom_outlined,
+            'Family Circle',
+            '1 trusted person · Priya (Sister)',
+            onTap: () => context.push(AppRoutes.family),
+          ),
           const SizedBox(height: 8),
-          _buildSnapshotItem(Icons.bookmark_outline, 'Saved awareness', '4 resources saved'),
+          _buildSnapshotItem(
+            Icons.shield_outlined,
+            'Health records',
+            '6 records · Encrypted vault',
+            onTap: () => context.push(AppRoutes.records),
+          ),
+          const SizedBox(height: 8),
+          _buildSnapshotItem(
+            Icons.bookmark_outline,
+            'Saved awareness',
+            '4 resources saved',
+          ),
           const SizedBox(height: 12),
           Container(
             padding: const EdgeInsets.all(10),
@@ -227,17 +252,37 @@ class ProfileScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildSnapshotItem(IconData icon, String label, String value) {
-    return Row(
+  Widget _buildSnapshotItem(IconData icon, String label, String value, {VoidCallback? onTap}) {
+    final row = Row(
       children: [
         Icon(icon, size: 16, color: AppColors.primary),
         const SizedBox(width: 10),
         Text('$label: ', style: AppTypography.bodySmall.copyWith(color: AppColors.outline)),
         Expanded(
-          child: Text(value, style: AppTypography.bodySmall.copyWith(fontWeight: FontWeight.w600, color: AppColors.onSurface)),
+          child: Text(
+            value,
+            style: AppTypography.bodySmall.copyWith(
+              fontWeight: FontWeight.w600,
+              color: onTap != null ? AppColors.primary : AppColors.onSurface,
+            ),
+          ),
         ),
+        if (onTap != null)
+          const Icon(Icons.chevron_right, size: 16, color: AppColors.outline),
       ],
     );
+
+    if (onTap != null) {
+      return InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(6),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 2),
+          child: row,
+        ),
+      );
+    }
+    return row;
   }
 
   Widget _buildPrivacySharingSection(BuildContext context) {
@@ -264,10 +309,10 @@ class ProfileScreen extends ConsumerWidget {
         const SizedBox(height: 8),
         _buildNavTile(
           context,
-          icon: Icons.supervised_user_circle_outlined,
-          title: 'Care team sharing',
-          subtitle: 'Choose what your connected clinician can access',
-          onTap: () => context.push(AppRoutes.doctorProfile),
+          icon: Icons.folder_shared_outlined,
+          title: 'Care team sharing & records',
+          subtitle: 'Choose what your connected clinician can access from your vault',
+          onTap: () => context.push(AppRoutes.records),
         ),
         const SizedBox(height: 8),
         _buildNavTile(

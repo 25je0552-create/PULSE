@@ -6,50 +6,46 @@ class RecordModel {
   final String id;
   final String title;
   final String subtitle;
-  final String type;
+  final String badge;
   final String category;
   final String date;
-  final String facility;
+  final String actionLabel;
   final String details;
-  final bool sharedWithDoctor;
-  final bool sharedWithFamily;
+  final List<String> recommendations;
 
   RecordModel({
     required this.id,
     required this.title,
     required this.subtitle,
-    required this.type,
+    required this.badge,
     required this.category,
     required this.date,
-    required this.facility,
+    required this.actionLabel,
     required this.details,
-    this.sharedWithDoctor = true,
-    this.sharedWithFamily = false,
+    this.recommendations = const [],
   });
 
   RecordModel copyWith({
     String? id,
     String? title,
     String? subtitle,
-    String? type,
+    String? badge,
     String? category,
     String? date,
-    String? facility,
+    String? actionLabel,
     String? details,
-    bool? sharedWithDoctor,
-    bool? sharedWithFamily,
+    List<String>? recommendations,
   }) {
     return RecordModel(
       id: id ?? this.id,
       title: title ?? this.title,
       subtitle: subtitle ?? this.subtitle,
-      type: type ?? this.type,
+      badge: badge ?? this.badge,
       category: category ?? this.category,
       date: date ?? this.date,
-      facility: facility ?? this.facility,
+      actionLabel: actionLabel ?? this.actionLabel,
       details: details ?? this.details,
-      sharedWithDoctor: sharedWithDoctor ?? this.sharedWithDoctor,
-      sharedWithFamily: sharedWithFamily ?? this.sharedWithFamily,
+      recommendations: recommendations ?? this.recommendations,
     );
   }
 }
@@ -57,22 +53,26 @@ class RecordModel {
 class RecordsState {
   final bool isLoading;
   final String selectedCategory;
+  final String searchQuery;
   final List<RecordModel> records;
 
   RecordsState({
     this.isLoading = false,
     this.selectedCategory = 'All',
+    this.searchQuery = '',
     this.records = const [],
   });
 
   RecordsState copyWith({
     bool? isLoading,
     String? selectedCategory,
+    String? searchQuery,
     List<RecordModel>? records,
   }) {
     return RecordsState(
       isLoading: isLoading ?? this.isLoading,
       selectedCategory: selectedCategory ?? this.selectedCategory,
+      searchQuery: searchQuery ?? this.searchQuery,
       records: records ?? this.records,
     );
   }
@@ -89,98 +89,104 @@ class RecordsNotifier extends StateNotifier<RecordsState> {
                 id: 'rec_1',
                 title: 'Consultation summary',
                 subtitle: 'Dr. Meera Sharma · Primary Care',
-                type: 'Clinician note',
+                badge: 'Clinician note',
                 category: 'Care documents',
                 date: '18 Sep 2026',
-                facility: 'St. Jude Health Center',
-                details: 'Follow-up regarding lifestyle pacing, sleep hygiene advice, and baseline metabolic monitoring.',
-                sharedWithDoctor: true,
-                sharedWithFamily: false,
+                actionLabel: 'View summary',
+                details:
+                    'Discussed daily stress pacing, sleep routine adjustments, and scheduled follow-up check-in for 24 September. Patient agreed to log weekly energy levels.',
+                recommendations: [
+                  'Limit screen time 45 min before resting',
+                  'Maintain regular hydration schedule',
+                  'Follow up during next cycle consult',
+                ],
               ),
               RecordModel(
                 id: 'rec_2',
-                title: 'Comprehensive Metabolic Panel & Hormonal Baseline',
-                subtitle: 'Bengaluru Diagnostic Laboratories',
-                type: 'Lab report',
-                category: 'Reports & results',
-                date: '10 Sep 2026',
-                facility: 'BDL Labs, Indiranagar',
-                details: 'Insulin, lipid profile, thyroid function, and androgen indices reviewed with primary care doctor.',
-                sharedWithDoctor: true,
-                sharedWithFamily: false,
+                title: 'Wellbeing review',
+                subtitle: 'Pulse check-in summary · 30-day rhythm',
+                badge: 'Self-reported',
+                category: 'Wellbeing history',
+                date: '16 Sep 2026',
+                actionLabel: 'Recorded',
+                details:
+                    'Self-reported 30-day rhythm review shows stable evening recovery patterns and lower morning friction.',
+                recommendations: [
+                  'Continue 10-minute morning pacing',
+                  'Maintain steady bedtime hours',
+                ],
               ),
               RecordModel(
                 id: 'rec_3',
-                title: 'Current Nutritional Care Guidelines',
-                subtitle: 'Dr. Meera Sharma, MD',
-                type: 'Care plan',
-                category: 'Prescriptions',
+                title: 'Care plan',
+                subtitle: 'Updated care plan & lifestyle guidance',
+                badge: 'Care team',
+                category: 'Care documents',
                 date: '12 Sep 2026',
-                facility: 'St. Jude Health',
-                details: 'Magnesium glycinate supplement guidance, balanced glycemic meals recommendation.',
-                sharedWithDoctor: true,
-                sharedWithFamily: false,
+                actionLabel: 'Read plan',
+                details:
+                    'Prescribed and confirmed during your 12 Sep consultation with Dr. Meera Sharma. Focus on sleep routine regularity.',
+                recommendations: [
+                  'Regular sleep hygiene schedule',
+                  'Hydration routine reinforcement',
+                ],
               ),
               RecordModel(
                 id: 'rec_4',
-                title: 'Pulse 30-Day Check-in Synthesis',
-                subtitle: 'Self-reported telemetry archive',
-                type: 'Wellbeing history',
-                category: 'Wellbeing history',
-                date: '22 Sep 2026',
-                facility: 'Pulse Encrypted Vault',
-                details: 'Archive of self-reported mood, energy, and stress daily signals.',
-                sharedWithDoctor: true,
-                sharedWithFamily: true,
+                title: 'Sleep & wellbeing report',
+                subtitle: 'Pulse generated summary (Patient draft)',
+                badge: 'Personal draft',
+                category: 'Reports & results',
+                date: '08 Sep 2026',
+                actionLabel: 'Review draft',
+                details:
+                    'Patient draft summarizing sleep patterns and evening rest intervals over the previous fortnightly cycle.',
+                recommendations: [
+                  'Review draft prior to next clinical visit',
+                ],
               ),
             ],
           ),
         );
 
   void setCategory(String category) {
-    state = state.copyWith(selectedCategory: category);
+    if (state.selectedCategory == category) {
+      state = state.copyWith(selectedCategory: 'All');
+    } else {
+      state = state.copyWith(selectedCategory: category);
+    }
   }
 
-  void toggleDoctorSharing(String id) {
+  void setSearchQuery(String query) {
+    state = state.copyWith(searchQuery: query);
+  }
+
+  void deleteRecord(String id) {
     state = state.copyWith(
-      records: state.records.map((r) {
-        if (r.id == id) {
-          final updated = r.copyWith(sharedWithDoctor: !r.sharedWithDoctor);
-          _syncPermissions(updated);
-          return updated;
-        }
-        return r;
-      }).toList(),
+      records: state.records.where((r) => r.id != id).toList(),
     );
   }
 
-  void toggleFamilySharing(String id) {
-    state = state.copyWith(
-      records: state.records.map((r) {
-        if (r.id == id) {
-          final updated = r.copyWith(sharedWithFamily: !r.sharedWithFamily);
-          _syncPermissions(updated);
-          return updated;
-        }
-        return r;
-      }).toList(),
-    );
-  }
-
-  void addRecord(String title, String category, String facility) {
+  void addRecord({
+    required String title,
+    required String subtitle,
+    required String category,
+    required String badge,
+    required String details,
+  }) {
     final newRec = RecordModel(
       id: 'rec_${DateTime.now().millisecondsSinceEpoch}',
       title: title,
-      subtitle: 'Uploaded by patient',
-      type: 'Personal Record',
+      subtitle: subtitle,
+      badge: badge,
       category: category,
       date: 'Today',
-      facility: facility,
-      details: 'Patient document stored securely in Pulse Personal Vault.',
-      sharedWithDoctor: false,
-      sharedWithFamily: false,
+      actionLabel: 'View summary',
+      details: details,
+      recommendations: [
+        'Stored securely in local device vault',
+      ],
     );
-
     state = state.copyWith(records: [newRec, ...state.records]);
     try {
       _apiClient.post(
@@ -188,25 +194,13 @@ class RecordsNotifier extends StateNotifier<RecordsState> {
         data: {
           'title': title,
           'category': category,
-          'facility': facility,
-        },
-      );
-    } catch (_) {}
-  }
-
-  void _syncPermissions(RecordModel record) {
-    try {
-      _apiClient.patch(
-        '${ApiEndpoints.records}/${record.id}/permissions',
-        data: {
-          'sharedWithDoctor': record.sharedWithDoctor,
-          'sharedWithFamily': record.sharedWithFamily,
         },
       );
     } catch (_) {}
   }
 }
 
-final recordsProvider = StateNotifierProvider<RecordsNotifier, RecordsState>((ref) {
+final recordsProvider =
+    StateNotifierProvider<RecordsNotifier, RecordsState>((ref) {
   return RecordsNotifier();
 });
